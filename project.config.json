@@ -1,0 +1,65 @@
+{
+  "appid": "wx7d9c6a2740751b9d",
+  "projectname": "mistake-master",
+  "description": "学霸省题微信小程序",
+  "miniprogramRoot": "miniprogram/",
+  "compileType": "miniprogram",
+  "setting": {
+    "urlCheck": true,
+    "useCompilerPlugins": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "packNpmManually": false,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "condition": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [
+      {
+        "value": "node_modules",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm",
+        "type": "folder"
+      },
+      {
+        "value": "assets/login/welcome.jpg",
+        "type": "file"
+      },
+      {
+        "value": "assets/login/welcome-compliant.png",
+        "type": "file"
+      },
+      {
+        "value": "assets/login/welcome-xuebashengti.png",
+        "type": "file"
+      },
+      {
+        "value": "assets/login/welcome-xuebashengti.webp",
+        "type": "file"
+      },
+      {
+        "value": "assets/login/welcome-xuebashengti.jpg",
+        "type": "file"
+      }
+    ],
+    "include": []
+  },
+  "editorSetting": {}
+}

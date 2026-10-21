@@ -1,0 +1,95 @@
+<view class="page points-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}">
+    <view class="nav" style="{{navBarStyle}}"><text class="nav-back" bindtap="back">‹</text><text class="nav-title">学习积分</text></view>
+  </view>
+  <scroll-view
+    class="points-scroll"
+    scroll-y="{{true}}"
+    enhanced="{{true}}"
+    show-scrollbar="{{false}}"
+    refresher-enabled="{{true}}"
+    refresher-triggered="{{refreshing}}"
+    refresher-default-style="none"
+    refresher-background="#fbfefd"
+    bindscroll="onPointsScroll"
+    bindrefresherrefresh="onPointsRefresh"
+  >
+  <view class="points-content">
+  <view wx:if="{{refreshFeedback}}" class="points-refresh-feedback {{refreshFeedback==='success'?'refresh-success':''}}" aria-live="polite">
+    <view wx:if="{{refreshFeedback==='loading'}}" class="points-refresh-spinner"></view>
+    <view wx:else class="points-refresh-check">✓</view>
+    <text>{{refreshFeedback==='loading'?'正在同步积分数据…':'积分已更新'}}</text>
+  </view>
+  <view wx:if="{{loading}}" class="points-skeleton" aria-label="正在加载学习积分">
+    <view class="skeleton-hero"></view>
+    <view class="skeleton-heading"></view>
+    <view class="skeleton-card"><view></view><view></view><view></view></view>
+    <view class="skeleton-card skeleton-short"><view></view></view>
+  </view>
+  <block wx:elif="{{summary}}">
+    <view class="points-hero">
+      <view class="hero-glow"></view>
+      <text class="hero-kicker">{{summary.status==='active'?'我的积分':'真实学习 · 点滴累积'}}</text>
+      <view class="balance-line"><text class="coin">★</text><text class="balance">{{summary.balance || 0}}</text><text class="balance-unit">积分</text></view>
+      <text wx:if="{{summary.status==='active'}}" class="today-earned">今日已获得 {{summary.earned_today || 0}} 积分</text>
+      <text wx:elif="{{summary.status==='inactive'}}" class="today-earned">开启后仅从新的学习行为开始计分</text>
+      <text wx:else class="today-earned">积分服务正在升级</text>
+    </view>
+
+    <view wx:if="{{summary.status==='inactive'}}" class="activate-card card">
+      <text class="card-title">开启学习积分</text>
+      <text class="activate-copy">积分根据服务端已确认的收题、练习和掌握记录计算，用于学习激励和防止重复获取。不开启不影响原有功能。</text>
+      <view class="consent" bindtap="toggleAgreement" aria-role="checkbox" aria-checked="{{agreed}}">
+        <view class="check {{agreed?'checked':''}}">{{agreed?'✓':''}}</view>
+        <view class="consent-copy">我已阅读并同意<text data-type="agreement" catchtap="openLegal">《用户服务协议》</text>和<text data-type="privacy" catchtap="openLegal">《隐私政策》</text>中的积分规则</view>
+      </view>
+      <button class="activate-button" disabled="{{!agreed || activating}}" loading="{{activating}}" bindtap="activate">同意并开启</button>
+    </view>
+
+    <view wx:elif="{{summary.status!=='active'}}" class="activate-card card">
+      <text class="card-title">学习积分暂未开放</text>
+      <text class="activate-copy">积分服务正在升级，现有拍照识别、错题收集和练习功能均可正常使用。</text>
+    </view>
+
+    <block wx:if="{{summary.rules && summary.rules.length}}">
+      <view class="section-heading"><text>今日学习任务</text><text wx:if="{{summary.status==='active'}}" class="cap">日常上限 {{summary.daily_base_cap}} 分</text></view>
+      <view class="tasks card">
+        <view wx:for="{{summary.rules}}" wx:key="code" class="task-row">
+          <view class="task-icon {{item.code}}">{{index + 1}}</view>
+          <view class="task-content">
+            <view class="task-title-line"><text class="task-title">{{item.title}}</text><text class="task-reward">{{item.reward_label}}</text></view>
+            <text class="task-description">{{item.description}}</text>
+            <view class="task-progress"><view style="width:{{item.progress_percent}}%"></view></view>
+          </view>
+          <text class="task-count">{{item.progress}}/{{item.daily_limit}}</text>
+        </view>
+      </view>
+    </block>
+
+    <view wx:if="{{summary.status==='active'}}" class="streak-card card">
+      <view class="streak-symbol">🔥</view>
+      <view class="streak-copy"><text>连续学习 {{summary.streak.days}} 天</text><text>下一里程碑：{{summary.streak.next_milestone}} 天</text></view>
+    </view>
+
+    <view class="exchange-card card" aria-disabled="true">
+      <view class="exchange-icon">🎁</view>
+      <view class="exchange-copy"><text>积分兑换升级中</text><text>具体权益与规则以正式上线公告为准</text></view>
+      <text class="upgrading">升级中</text>
+    </view>
+
+    <block wx:if="{{summary.status==='active'}}">
+      <view class="section-heading"><text>最近积分明细</text><text wx:if="{{transactions.length}}" class="history-link" bindtap="openTransactions">查看全部 ›</text></view>
+      <view wx:if="{{!transactions.length}}" class="empty-transactions card">完成一次真实学习后，积分明细会出现在这里</view>
+      <view wx:else class="transactions card">
+        <view wx:for="{{transactions}}" wx:key="id" class="transaction-row">
+          <view><text class="transaction-title">{{item.description}}</text><text class="transaction-time">{{item.time_label}}</text></view>
+          <text class="transaction-delta">+{{item.delta}}</text>
+        </view>
+      </view>
+    </block>
+
+    <view class="points-rules-note">积分仅为小程序内学习激励记录，无现金价值，不可购买、转让、提现、交易或兑换现金。积分永久有效。</view>
+  </block>
+  </view>
+  </scroll-view>
+</view>

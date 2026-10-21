@@ -1,0 +1,26 @@
+.app-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #079f99;
+}
+
+.spinner {
+  box-sizing: border-box;
+  width: 30rpx;
+  height: 30rpx;
+  border: 4rpx solid rgba(7, 159, 153, 0.18);
+  border-top-color: #079f99;
+  border-radius: 50%;
+  animation: app-loading-spin 0.8s linear infinite;
+}
+
+.loading-tips {
+  margin-left: 14rpx;
+  font-size: 25rpx;
+}
+
+@keyframes app-loading-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

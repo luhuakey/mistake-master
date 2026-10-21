@@ -1,0 +1,41 @@
+<view class="page result-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}"><view class="nav" style="{{navBarStyle}}"><text class="nav-back" bindtap="back">‹</text><text class="nav-title">练习结果</text></view></view>
+  <view wx:if="{{loading}}" class="loading"><app-loading/></view>
+  <block wx:elif="{{record}}">
+    <view wx:if="{{pointsReward>0}}" class="points-reward"><text>★</text><text>本次学习 +{{pointsReward}} 积分</text></view>
+    <view class="result-summary">
+      <view class="complete">练习完成</view>
+      <view class="stats">
+        <view><view><text>{{record.correct_count}}</text><text class="unit">道</text></view><text>正确</text></view>
+        <view><view><text>{{record.wrong_count}}</text><text class="unit">道</text></view><text>错误</text></view>
+        <view wx:if="{{record.pending_count}}"><view><text>{{record.pending_count}}</text><text class="unit">道</text></view><text>待自评</text></view>
+        <view><view><text>{{record.accuracy===null?'--':record.accuracy+'%'}}</text></view><text>正确率</text></view>
+      </view>
+    </view>
+
+    <view class="section-title">题目详解</view>
+    <block wx:for="{{record.items}}" wx:key="question_id">
+      <view class="result-item card {{item.is_correct===null?'pending':item.is_correct?'correct':'wrong'}}">
+        <view class="result-head"><text class="mark">{{item.is_correct===null?'…':item.is_correct?'✓':'!'}}</text><text>{{item.is_correct===null?'待自评':item.is_correct?'正确':'错误'}}</text></view>
+        <view class="stem"><math-text value="{{item.stem}}"/></view>
+        <view wx:if="{{item.questionImageUrl}}" class="question-illustration" data-url="{{item.questionImageUrl}}" bindtap="previewQuestionImage" aria-role="button" aria-label="查看原题配图">
+          <image src="{{item.questionImageUrl}}" mode="widthFix" style="width:{{item.questionImageWidth}};" lazy-load="{{true}}"/>
+          <text>原题配图 · 轻触可放大</text>
+        </view>
+        <view class="answer-row"><text>你的答案：</text><math-text value="{{item.user_answer}}"/></view>
+        <view class="answer-row"><text>{{item.grading_mode==='self_review'?'参考答案：':'正确答案：'}}</text><math-text value="{{item.correct_answer}}"/></view>
+        <view wx:if="{{item.is_correct===null}}" class="self-assess-actions">
+          <view class="self-assess review" data-question-id="{{item.question_id}}" data-correct="{{false}}" bindtap="selfAssess">需要复习</view>
+          <view class="self-assess pass" data-question-id="{{item.question_id}}" data-correct="{{true}}" bindtap="selfAssess">基本正确</view>
+        </view>
+      </view>
+      <view wx:if="{{item.grading_mode==='self_review' || item.is_correct===false}}" class="explain">
+        <view><text class="label">解析过程：</text><math-text value="{{item.analysis}}"/></view>
+        <view class="warning"><text class="label">易错点分析：</text><math-text value="{{item.error_prone_point}}"/></view>
+      </view>
+      <view wx:if="{{item.is_correct===false && index !== record.items.length-1}}" class="connector">⌄</view>
+    </block>
+
+    <view wx:if="{{record.wrong_count}}" class="retry" bindtap="retryWrong">重做错题</view>
+  </block>
+</view>

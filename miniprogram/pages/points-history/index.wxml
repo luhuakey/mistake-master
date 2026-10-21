@@ -1,0 +1,31 @@
+<view class="page points-history-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}">
+    <view class="nav" style="{{navBarStyle}}"><text class="nav-back" bindtap="back">‹</text><text class="nav-title">积分明细</text></view>
+  </view>
+
+  <view class="history-intro card">
+    <view class="intro-icon">★</view>
+    <view><text class="intro-title">每一次进步都有记录</text><text class="intro-copy">按北京时间倒序展示已获得的学习积分</text></view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading"><app-loading tips="加载积分明细"/></view>
+  <view wx:elif="{{loadFailed}}" class="state-card card">
+    <text class="state-title">积分明细加载失败</text><text class="state-copy">请检查网络后重新加载</text><view class="retry-button" bindtap="retry">重新加载</view>
+  </view>
+  <view wx:elif="{{!transactions.length}}" class="state-card card">
+    <text class="state-title">暂无积分明细</text><text class="state-copy">完成一次真实学习后，获得记录会出现在这里</text>
+  </view>
+  <block wx:else>
+    <view wx:for="{{groups}}" wx:key="date_key" wx:for-item="group" class="transaction-group">
+      <view class="group-date"><text>{{group.date_label}}</text><text>{{group.items.length}} 笔</text></view>
+      <view class="transaction-list card">
+        <view wx:for="{{group.items}}" wx:key="id" wx:for-item="transaction" class="transaction-row">
+          <view class="transaction-copy"><text class="transaction-title">{{transaction.description}}</text><text class="transaction-time">{{transaction.time_label}}</text></view>
+          <text class="transaction-delta">+{{transaction.delta}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{nextCursor}}" class="page-footer active" bindtap="loadMore">{{loadingMore?'加载中…':'加载更多'}}</view>
+    <view wx:else class="page-footer">已加载全部积分明细</view>
+  </block>
+</view>

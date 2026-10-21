@@ -1,0 +1,50 @@
+<view class="page about-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}">
+    <view class="nav" style="{{navBarStyle}}">
+      <text class="nav-back" bindtap="back">‹</text>
+      <text class="nav-title">关于我们</text>
+    </view>
+  </view>
+
+  <view class="about-hero card">
+    <view class="brand-mark"><text>省</text></view>
+    <text class="app-name">{{app.name}}</text>
+    <text class="app-slogan">{{app.slogan}}</text>
+    <text class="version-pill">{{app.version}}</text>
+  </view>
+
+  <view class="about-card card">
+    <text class="card-title">让每一道错题都有价值</text>
+    <text class="about-copy">学霸省题是一款面向学生的个人错题学习小程序。我们希望把错题收集、整理、检索、练习和复盘连接起来，帮助你更清楚地发现薄弱知识点，用自己的错题持续巩固学习。</text>
+  </view>
+
+  <view class="features-card card">
+    <text class="card-title">核心能力</text>
+    <view class="feature-grid">
+      <view wx:for="{{features}}" wx:key="title" class="feature-item">
+        <view class="feature-icon">{{item.icon}}</view>
+        <view class="feature-copy">
+          <text class="feature-title">{{item.title}}</text>
+          <text class="feature-description">{{item.description}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="service-card card">
+    <text class="card-title">数据与智能服务</text>
+    <text class="service-copy">小程序使用腾讯云 CloudBase 提供业务数据与文件存储，使用阿里云读光 OCR 识别错题文字，使用 DeepSeek 生成结构化解析，并通过阿里云百炼及 DashVector 完成个人题库的语义检索。</text>
+    <view class="service-notice">AI 识别和解析结果可能存在偏差，请结合原题独立核对。</view>
+  </view>
+
+  <view class="legal-card card">
+    <view class="legal-row" data-type="agreement" bindtap="openLegal">
+      <text>用户服务协议</text><text class="legal-arrow">›</text>
+    </view>
+    <view class="legal-row" data-type="privacy" bindtap="openLegal">
+      <text>隐私政策</text><text class="legal-arrow">›</text>
+    </view>
+  </view>
+
+  <text class="about-footer">感谢您使用 {{app.name}}</text>
+</view>

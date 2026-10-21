@@ -1,0 +1,20 @@
+:host { display: block; min-width: 0; }
+.math-text { display: flex; flex-wrap: wrap; align-items: center; min-width: 0; color: inherit; font: inherit; line-height: inherit; }
+.math-text.math-lines-2 { position: relative; max-height: 2.9em; overflow: hidden; }
+.math-text.math-lines-2.is-truncated::after { content:'…'; position:absolute; right:0; bottom:0; width:2em; color:inherit; text-align:right; background:linear-gradient(90deg,rgba(255,255,255,0),#fff 48%); }
+.math-plain { white-space: pre-wrap; }
+.math-script { display: inline-block; font-size: .68em; line-height: 1; margin-left: 1px; }
+.math-sup { transform: translateY(-.45em); }
+.math-sub { transform: translateY(.28em); }
+.math-root { display: inline-flex; align-items: flex-start; margin: 0 2px; line-height: 1; vertical-align: middle; }
+.root-degree { align-self: flex-start; margin: 0 -3px 0 0; font-size: .54em; line-height: 1; transform: translateY(-.12em); }
+.radical { font-size: 1.22em; line-height: 1.08; }
+.radicand { display: inline-flex; align-items: center; min-width: .72em; border-top: 2rpx solid currentColor; margin-left: -2px; padding: 1px 6px 0 2px; line-height: 1.05; }
+.math-root-nested { margin: 0 1px; }
+.math-root-nested .radicand { min-width: .82em; padding-right: 7px; }
+.math-fraction { display: inline-flex; flex-direction: column; align-items: stretch; justify-content: center; margin: 0 4px; line-height: 1.02; }
+.numerator, .denominator { display: flex; align-items: center; justify-content: center; min-width: 1.1em; padding: 0 4px; text-align: center; font-size: .82em; }
+.numerator { border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+.denominator { padding-top: 2px; }
+.math-overline { display: inline-block; border-top: 2rpx solid currentColor; padding: 1px 2px 0; line-height: 1; }
+.math-accent { display: inline-block; }

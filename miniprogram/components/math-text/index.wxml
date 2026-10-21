@@ -1,0 +1,43 @@
+<view class="math-text {{maxLines===2?'math-lines-2':''}} {{truncated?'is-truncated':''}}" aria-label="{{value}}">
+  <block wx:for="{{segments}}" wx:key="index">
+    <text wx:if="{{item.type==='text'}}" class="math-plain" user-select="{{true}}">{{item.text}}</text>
+    <text wx:elif="{{item.type==='sup'}}" class="math-script math-sup">{{item.text}}</text>
+    <text wx:elif="{{item.type==='sub'}}" class="math-script math-sub">{{item.text}}</text>
+    <view wx:elif="{{item.type==='root'}}" class="math-root">
+      <text wx:if="{{item.degreeText}}" class="root-degree">{{item.degreeText}}</text>
+      <text class="radical">√</text>
+      <view class="radicand">
+        <block wx:for="{{item.radicandSegments}}" wx:key="index" wx:for-item="part">
+          <text wx:if="{{part.type==='text'}}">{{part.text}}</text>
+          <text wx:elif="{{part.type==='sup'}}" class="math-script math-sup">{{part.text}}</text>
+          <text wx:elif="{{part.type==='sub'}}" class="math-script math-sub">{{part.text}}</text>
+          <text wx:else>{{part.fallbackText || part.text}}</text>
+        </block>
+      </view>
+    </view>
+    <view wx:elif="{{item.type==='fraction'}}" class="math-fraction">
+      <view class="numerator">
+        <block wx:for="{{item.numeratorSegments}}" wx:key="index" wx:for-item="part">
+          <text wx:if="{{part.type==='text'}}">{{part.text}}</text>
+          <text wx:elif="{{part.type==='sup'}}" class="math-script math-sup">{{part.text}}</text>
+          <text wx:elif="{{part.type==='sub'}}" class="math-script math-sub">{{part.text}}</text>
+          <view wx:elif="{{part.type==='root'}}" class="math-root math-root-nested"><text wx:if="{{part.degreeText}}" class="root-degree">{{part.degreeText}}</text><text class="radical">√</text><text class="radicand">{{part.radicandText}}</text></view>
+          <text wx:elif="{{part.type==='overline'}}" class="math-overline">{{part.text}}</text>
+          <text wx:else>{{part.fallbackText || part.text}}</text>
+        </block>
+      </view>
+      <view class="denominator">
+        <block wx:for="{{item.denominatorSegments}}" wx:key="index" wx:for-item="part">
+          <text wx:if="{{part.type==='text'}}">{{part.text}}</text>
+          <text wx:elif="{{part.type==='sup'}}" class="math-script math-sup">{{part.text}}</text>
+          <text wx:elif="{{part.type==='sub'}}" class="math-script math-sub">{{part.text}}</text>
+          <view wx:elif="{{part.type==='root'}}" class="math-root math-root-nested"><text wx:if="{{part.degreeText}}" class="root-degree">{{part.degreeText}}</text><text class="radical">√</text><text class="radicand">{{part.radicandText}}</text></view>
+          <text wx:elif="{{part.type==='overline'}}" class="math-overline">{{part.text}}</text>
+          <text wx:else>{{part.fallbackText || part.text}}</text>
+        </block>
+      </view>
+    </view>
+    <text wx:elif="{{item.type==='overline'}}" class="math-overline">{{item.text}}</text>
+    <text wx:elif="{{item.type==='accent'}}" class="math-accent">{{item.text}}</text>
+  </block>
+</view>

@@ -1,0 +1,4 @@
+<view class="app-loading">
+  <view class="spinner"></view>
+  <text wx:if="{{tips}}" class="loading-tips">{{tips}}</text>
+</view>

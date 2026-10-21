@@ -1,0 +1,13 @@
+.recognition-history-page { padding-bottom:80rpx; }
+.history-intro { margin:20rpx 0 36rpx; padding:34rpx; background:linear-gradient(135deg,#e9fffa,#effaff); }
+.intro-number { color:#079f99; font-size:52rpx; font-weight:800; }
+.intro-unit { margin-left:6rpx; color:#557072; font-size:22rpx; }
+.intro-title,.intro-description { display:block; }
+.intro-title { margin-top:12rpx; color:#172021; font-size:28rpx; font-weight:700; }
+.intro-description { margin-top:8rpx; color:#667679; font-size:22rpx; line-height:1.6; }
+.record-time { display:flex; justify-content:space-between; margin:0 8rpx 12rpx; color:#708083; font-size:21rpx; }
+.empty { display:flex; flex-direction:column; align-items:center; }
+.empty-title { color:#263133; font-size:28rpx; font-weight:700; }
+.empty-copy { margin-top:14rpx; color:#7b898c; font-size:22rpx; line-height:1.6; }
+.capture-button { width:290rpx; margin:34rpx auto 0; border:0; border-radius:40rpx; color:#fff; background:linear-gradient(100deg,#22d5a0,#079fe6); font-size:27rpx; font-weight:700; }
+.capture-button::after { border:0; }

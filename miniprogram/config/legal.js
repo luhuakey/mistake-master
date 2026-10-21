@@ -1,0 +1,2 @@
+export const LEGAL_VERSION = '2026-09-01';
+export const POINTS_TERMS_VERSION = LEGAL_VERSION;

@@ -1,0 +1,73 @@
+<view class="page practice-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}">
+    <view class="nav" style="{{navBarStyle}}"><text class="nav-back" bindtap="exit" aria-role="button" aria-label="返回">‹</text><text class="nav-title">{{pageTitle}}</text></view>
+  </view>
+
+  <view wx:if="{{loading}}" class="practice-preparing card" aria-live="polite">
+    <view class="preparing-visual">
+      <view class="preparing-orbit orbit-one"></view>
+      <view class="preparing-orbit orbit-two"></view>
+      <view class="preparing-core">✦</view>
+    </view>
+    <text class="preparing-title">{{preparing?'正在准备题目':'正在恢复练习'}}</text>
+    <text class="preparing-description">{{preparationText}}</text>
+    <view class="preparing-dots"><text></text><text></text><text></text></view>
+    <text class="preparing-hint">题目会在当前页面直接出现，请稍候</text>
+  </view>
+  <view wx:elif="{{!currentQuestion}}" class="empty card"><view>{{emptyMessage || '还没有进行中的练习'}}</view><view class="start-action" bindtap="startRecommended">{{emptyMessage?'重新准备':'开始今日推荐'}}</view></view>
+  <block wx:else>
+    <view class="progress-block">
+      <view class="progress-meta">
+        <text class="progress-count">第 {{currentIndex+1}} / {{questions.length}} 题 · 已答 {{answeredCount}} 题</text>
+        <text class="progress-percent">{{progressPercent}}%</text>
+      </view>
+      <view class="progress"><view class="progress-bar" style="width:{{progressPercent}}%"></view></view>
+    </view>
+
+    <view class="recommendation-note">
+      <view class="recommendation-note-icon">✦</view>
+      <view class="recommendation-note-copy">
+        <text class="recommendation-note-title">{{sessionType==='comprehensive'?'综合选题说明':'推荐选题说明'}}</text>
+        <text class="recommendation-note-text">{{sessionType==='comprehensive'?'从各科可练习错题中综合选题，优先覆盖薄弱知识点和需要再次巩固的内容。':'结合当前科目的知识点掌握度、错题率和练习间隔，优先推荐更需要巩固的题目。'}}</text>
+        <text class="recommendation-setting-path">推题设置位置：我的 → 学习设置 → 智能推题</text>
+      </view>
+    </view>
+
+    <view class="question card">
+      <view class="question-meta"><text>科 {{subjectLabel}}</text><text>{{difficultyLabel}}</text></view>
+      <view class="stem"><math-text value="{{currentQuestion.stem}}"/></view>
+      <view wx:if="{{questionImageUrl}}" class="question-illustration" bindtap="previewQuestionImage" aria-role="button" aria-label="查看原题配图">
+        <image src="{{questionImageUrl}}" mode="widthFix" style="width:{{questionImageWidth}};" lazy-load="{{true}}"/>
+        <text>原题配图 · 轻触可放大</text>
+      </view>
+    </view>
+
+    <view wx:if="{{hasOptions}}" class="options">
+      <view wx:for="{{currentOptionItems}}" wx:key="key" data-option="{{item.key}}" bindtap="select" class="option {{item.selected?'selected':''}} {{submitting?'disabled':''}}">
+        <text class="letter">{{item.symbol || item.key}}</text><view class="option-text"><math-text value="{{item.text}}"/></view><text class="circle"></text>
+      </view>
+      <text wx:if="{{currentQuestion.type==='multiple_choice'}}" class="multiple-hint">多选题：可选择多个选项，选完后点击继续</text>
+    </view>
+    <view wx:else class="text-answer-card">
+      <text class="text-answer-label">填写答案</text>
+      <textarea class="text-answer-input {{isLongAnswer?'long-answer-input':''}}" value="{{textAnswer}}" bindinput="inputAnswer" placeholder="{{answerPlaceholder}}" maxlength="-1" auto-height="{{!isLongAnswer}}" cursor-spacing="30"/>
+      <text class="text-answer-hint">{{answerHint}}</text>
+    </view>
+
+    <view wx:if="{{submitFailed}}" class="submit-retry" bindtap="submitPractice" aria-role="button">提交失败，点击重试</view>
+    <view wx:elif="{{needsConfirm || currentIndex>0}}" class="practice-actions">
+      <view wx:if="{{currentIndex>0}}" class="previous {{needsConfirm?'action-half':''}} {{submitting?'disabled':''}}" bindtap="previous" aria-role="button" aria-disabled="{{submitting}}">上一题</view>
+      <view wx:if="{{needsConfirm}}" class="answer-next {{currentIndex>0?'action-half':''}} {{submitting?'disabled':''}}" bindtap="confirmTextAnswer" aria-role="button" aria-disabled="{{submitting}}">{{currentIndex<questions.length-1?'下一题':'提交练习'}}</view>
+    </view>
+  </block>
+
+  <page-container
+    wx:if="{{backGuardVisible}}"
+    show="{{true}}"
+    overlay="{{false}}"
+    duration="{{0}}"
+    position="right"
+    custom-style="width:0;height:0;background:transparent;"
+    bindbeforeleave="onBackGuardLeave"
+  />
+</view>

@@ -1,0 +1,23 @@
+.points-history-page { padding-bottom:90rpx; }
+.history-intro { display:flex; align-items:center; gap:22rpx; margin:18rpx 0 34rpx; padding:30rpx; background:linear-gradient(130deg,#fff9e9,#effbf8); }
+.intro-icon { flex:none; width:64rpx; height:64rpx; display:flex; align-items:center; justify-content:center; border-radius:50%; color:#ef8a22; background:#fff0ba; font-size:31rpx; box-shadow:0 8rpx 18rpx rgba(236,149,45,.12); }
+.intro-title,.intro-copy { display:block; }
+.intro-title { color:#202626; font-size:27rpx; font-weight:750; }
+.intro-copy { margin-top:7rpx; color:#7c8988; font-size:20rpx; line-height:1.5; }
+.transaction-group { margin-bottom:28rpx; }
+.group-date { min-height:56rpx; display:flex; align-items:center; justify-content:space-between; padding:0 7rpx; }
+.group-date text:first-child { color:#283131; font-size:25rpx; font-weight:720; }
+.group-date text:last-child { color:#96a09f; font-size:19rpx; }
+.transaction-list { padding:0 28rpx; }
+.transaction-row { min-height:104rpx; display:flex; align-items:center; justify-content:space-between; border-bottom:1rpx solid #edf1f0; }
+.transaction-row:last-child { border:0; }
+.transaction-copy { min-width:0; display:flex; flex-direction:column; gap:7rpx; }
+.transaction-title { overflow:hidden; color:#202525; font-size:25rpx; font-weight:650; text-overflow:ellipsis; white-space:nowrap; }
+.transaction-time { color:#929b9b; font-size:20rpx; }
+.transaction-delta { flex:none; margin-left:24rpx; color:#ef8a22; font-size:29rpx; font-weight:800; }
+.state-card { display:flex; flex-direction:column; align-items:center; padding:68rpx 30rpx; text-align:center; }
+.state-title { color:#263132; font-size:28rpx; font-weight:720; }
+.state-copy { margin-top:13rpx; color:#859190; font-size:21rpx; line-height:1.6; }
+.retry-button { margin-top:28rpx; padding:18rpx 45rpx; border-radius:38rpx; color:#fff; background:linear-gradient(100deg,#22d5a0,#079fe6); font-size:23rpx; font-weight:700; }
+.page-footer { padding:28rpx 10rpx 8rpx; color:#9aa3a2; font-size:20rpx; text-align:center; }
+.page-footer.active { color:#078f8a; font-weight:650; }

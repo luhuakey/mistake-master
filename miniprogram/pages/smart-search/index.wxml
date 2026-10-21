@@ -1,0 +1,37 @@
+<view class="page search-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}"><view class="nav" style="{{navBarStyle}}"><text class="nav-back" bindtap="back">‹</text><text class="nav-title">智能搜索</text></view></view>
+
+  <view class="search-panel">
+    <view class="search-input">
+      <input value="{{keyword}}" bindinput="input" bindconfirm="search" placeholder="输入错题或知识点" confirm-type="search"/>
+      <view class="search-symbol" bindtap="search"></view>
+    </view>
+    <view class="hint">
+      <text>{{loading?'AI 正在理解你的输入并检索…':(isGuest?'游客模式：仅匹配体验题的题干、选项与知识点':'支持按题意、题干或知识点搜索')}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{isGuest}}" class="guest-upgrade">
+    <view class="guest-upgrade-copy">
+      <text class="guest-upgrade-title">登录后升级为语义搜索</text>
+      <text class="guest-upgrade-subtitle">无需完全匹配关键词，也能按题意查找你的个人错题</text>
+    </view>
+    <text class="guest-upgrade-action" bindtap="openLogin" aria-role="button">去登录</text>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading"><app-loading tips="正在检索"/></view>
+  <block wx:elif="{{searched}}">
+    <view class="search-mode-tip {{searchMode==='semantic'||searchMode==='hybrid'?'semantic-tip':(searchMode==='guest_keyword'?'guest-tip':'fallback-tip')}}">{{searchNotice}}</view>
+    <view class="result-title">{{isGuest?'找到':'为你找到'}} <text>{{items.length}}</text> 道{{isGuest?'体验题':'相关错题'}}</view>
+    <view wx:if="{{!items.length}}" class="empty card">
+      <text>{{isGuest?'体验题中没有找到匹配内容':'没有找到相关错题'}}</text>
+      <button wx:if="{{isGuest}}" class="empty-login-button" bindtap="openLogin">登录体验语义搜索</button>
+    </view>
+    <question-card wx:for="{{items}}" wx:key="id" question="{{item}}" showSimilarity="{{!isGuest}}" bind:select="openQuestion"/>
+    <view wx:if="{{items.length && !isGuest}}" class="recommend" bindtap="practice" aria-role="button">
+      <view class="recommend-icon">✦</view><text>基于以上错题，智能推荐练习</text>
+    </view>
+    <view class="privacy" wx:if="{{isGuest}}">搜索仅在本地体验题中进行，<text>不会上传搜索词</text></view>
+    <view class="privacy" wx:else>检索范围：仅你的个人<text>错题本，数据私密安全</text></view>
+  </block>
+</view>

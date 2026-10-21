@@ -1,0 +1,67 @@
+<view class="page recognition-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}"><view class="nav" style="{{navBarStyle}}"><text class="nav-back" bindtap="back">‹</text><text class="nav-title">收集错题</text></view></view>
+
+  <view wx:if="{{imagePath}}" class="preview-section">
+    <view class="preview-wrap" bindtap="previewImage" aria-role="button" aria-label="点击全屏查看图片">
+      <image class="preview" src="{{imagePath}}" mode="aspectFit"/>
+      <view wx:if="{{status==='created'||status==='processing'}}" class="preview-ai-layer" aria-hidden="true"><view class="preview-grid"></view><view class="preview-scan-beam"></view><view class="scan-point point-one"></view><view class="scan-point point-two"></view><view class="scan-point point-three"></view></view>
+      <view class="corner corner-lt"></view><view class="corner corner-rt"></view><view class="corner corner-lb"></view><view class="corner corner-rb"></view>
+    </view>
+    <view class="preview-hint">轻触图片可全屏查看</view>
+    <view wx:if="{{status!=='failed' && !saveSuccess}}" class="preview-actions"><view class="retake-action" bindtap="retake">重新拍摄</view></view>
+  </view>
+
+  <view wx:if="{{status==='created'||status==='processing'}}" class="ai-status processing-status">
+    <view class="ai-status-copy"><text class="ai-title">AI 智能解析</text><text class="ai-copy">{{stageLabel}}</text></view>
+    <view class="ai-visual" aria-hidden="true"><view class="ai-ring ring-outer"></view><view class="ai-ring ring-inner"></view><view class="ai-core">✦</view><view class="ai-spark spark-one"></view><view class="ai-spark spark-two"></view></view>
+    <view class="ai-processing-note"><view class="thinking-dots"><text></text><text></text><text></text></view><text>正在识别题干、选项与数学公式</text></view>
+  </view>
+  <view wx:elif="{{status==='failed'}}" class="failed card"><text class="failed-title">{{failureTitle}}</text><text user-select="{{true}}">{{errorMessage || '请重新拍摄后再试'}}</text><view class="retry-action" bindtap="retry">{{retryLabel}}</view></view>
+
+  <view wx:if="{{showPhotoGuide && status!=='created' && status!=='processing' && !saveSuccess}}" class="photo-guide card">
+    <view class="photo-guide-title">这样拍，识别更准确</view>
+    <view class="standard-photo" aria-label="规范试题图片样例">
+      <view class="sample-number">12.</view><view class="sample-lines"><view></view><view></view><view class="short"></view><view class="sample-options"><text>A</text><text>B</text><text>C</text><text>D</text></view></view>
+      <view class="sample-corner sample-lt"></view><view class="sample-corner sample-rt"></view><view class="sample-corner sample-lb"></view><view class="sample-corner sample-rb"></view>
+    </view>
+    <view wx:if="{{imageQuality && imageQuality.tips && imageQuality.tips.length}}" class="photo-guide-tips"><text wx:for="{{imageQuality.tips}}" wx:key="*this">✓ {{item}}</text></view>
+    <view wx:else class="photo-guide-tips"><text>✓ 题干、材料与作答要求完整入镜</text><text>✓ 对焦清晰，镜头与纸面尽量平行</text><text>✓ 避免手指、阴影、反光和无关内容遮挡</text></view>
+  </view>
+
+  <view wx:if="{{saveSuccess && status!=='failed'}}" class="save-success card">
+    <view class="success-check">✓</view><text class="success-title">已保存 {{saveSuccess.count}} 道错题</text>
+    <text class="success-copy">题目已加入你的错题本，可继续录入或前往题库查看。</text>
+    <view class="success-actions"><view bindtap="continueCapture">继续拍照</view><view bindtap="viewQuestions">查看题库</view></view>
+  </view>
+
+  <block wx:if="{{parsedItems.length && !saveSuccess && status!=='failed' && status!=='created' && status!=='processing'}}">
+    <view wx:if="{{providerMode==='mock'}}" class="mock-tip"><text class="mock-title">当前为演示模式</text><text>结果为固定示例，不对应上方图片。接入正式识别服务后即可使用真实识别。</text></view>
+    <view class="ai-status complete-status"><view class="ai-status-copy"><text class="ai-title">AI 智能解析</text><text class="ai-copy">识别 {{detectedCount}} 道 · {{validCount}} 道可保存</text></view><view class="complete-check">✓</view></view>
+    <view wx:if="{{imageQuality && imageQuality.message}}" class="quality-note">{{imageQuality.message}}</view>
+
+    <view wx:for="{{parsedItems}}" wx:key="item_id" class="question-result {{item.valid?'is-valid':'is-invalid'}} {{item.saved?'is-saved':''}}">
+      <view class="question-result-head" data-id="{{item.item_id}}" bindtap="toggleItem">
+        <view class="select-control {{item.selected?'selected':''}} {{!item.valid || item.saved?'disabled':''}}" data-id="{{item.item_id}}" catchtap="toggleSelection">{{item.saved?'✓':item.selected?'✓':''}}</view>
+        <view class="question-result-title"><text>第 {{item.order}} 题</text><text wx:if="{{item.saved}}" class="saved-label">已保存</text><text wx:elif="{{item.valid}}" class="valid-label">可保存</text><text wx:else class="invalid-label">需重新识别</text></view><text class="expand-icon">{{item.expanded?'⌃':'⌄'}}</text>
+      </view>
+      <view wx:if="{{!item.valid}}" class="item-error">{{item.error_message || '题目信息不完整'}}</view>
+      <view wx:if="{{item.expanded && item.valid}}" class="question-result-body">
+        <view class="subject-row"><text>科目　{{item.subjectLabel}}</text><text>难度　{{item.difficultyLabel}}</text><text class="type-tag">{{item.typeLabel}}</text><text class="ai-tag">AI 自动标识</text></view>
+        <view wx:if="{{item.crossSubject}}" class="subject-confirm">
+          <text class="subject-confirm-title">这是一道交叉学科题，请选择归入哪个科目</text>
+          <view class="subject-candidates"><text wx:for="{{item.subjectCandidateItems}}" wx:key="key" wx:for-item="candidate" class="subject-candidate {{item.selectedSubject===candidate.key?'active':''}}" data-id="{{item.item_id}}" data-subject="{{candidate.key}}" catchtap="selectSubject">{{candidate.label}}</text></view>
+        </view>
+        <view class="question-copy"><math-text value="{{item.question.stem}}"/></view>
+        <view wx:if="{{item.questionImageUrl}}" class="question-illustration" data-url="{{item.questionImageUrl}}" catchtap="previewQuestionImage" aria-role="button" aria-label="查看原题配图">
+          <image src="{{item.questionImageUrl}}" mode="widthFix" style="width:{{item.questionImageWidth}};" lazy-load="{{true}}"/>
+          <text>原题配图 · 轻触可放大</text>
+        </view>
+        <view wx:if="{{item.hasOptions}}" class="option-list"><view wx:for="{{item.optionItems}}" wx:key="key" wx:for-item="option" class="option-item"><text class="option-key">{{option.key}}</text><math-text value="{{option.text}}"/></view></view>
+        <view class="item-analysis"><view class="answer-preview"><text>参考答案：</text><math-text value="{{item.question.correct_answer}}"/></view><view class="analysis-copy"><text>解析过程：</text><math-text value="{{item.question.analysis}}"/></view><view class="warning"><text>易错点：</text><math-text value="{{item.question.error_prone_point}}"/></view><view><text wx:for="{{item.question.knowledge_points}}" wx:key="*this" wx:for-item="point" class="tag">{{point}}</text></view></view>
+      </view>
+    </view>
+
+    <view class="save-verification">保存前请逐题核对题干、作答要求和参考答案，取消勾选识别不准确的题目。</view>
+    <view class="save-button {{saving || !selectedCount?'disabled':''}}" bindtap="save">{{saving?'保存中…':selectedCount?'保存选中的 '+selectedCount+' 道':'请选择要保存的题目'}}</view>
+  </block>
+</view>

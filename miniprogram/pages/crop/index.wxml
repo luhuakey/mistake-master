@@ -1,0 +1,44 @@
+<view class="page crop-page">
+  <view class="page-nav-shell dark-nav-shell" style="{{navShellStyle}}">
+    <view class="nav" style="{{navBarStyle}}">
+      <text class="nav-back" bindtap="back">‹</text>
+      <text class="nav-title">裁剪确认</text>
+    </view>
+  </view>
+
+  <view class="image-stage">
+    <view class="image-area" catchtouchstart="imageTouchStart" catchtouchmove="imageTouchMove" catchtouchend="imageTouchEnd" catchtouchcancel="imageTouchEnd">
+      <image wx:if="{{imagePath}}" src="{{imagePath}}" mode="scaleToFill" class="source-image" style="left:{{imageDisplay.left}}%;top:{{imageDisplay.top}}%;width:{{imageDisplay.width}}%;height:{{imageDisplay.height}}%;transform:rotate({{imageRotation}}deg);"/>
+      <view wx:else class="empty-image"><text>拍摄或选择完整的试题图片</text></view>
+      <view wx:if="{{imagePath}}" class="scan-layer" aria-hidden="true"><view class="scan-line"></view></view>
+      <view wx:if="{{imagePath}}" class="crop-box" style="left:{{crop.left}}%;top:{{crop.top}}%;width:{{crop.width}}%;height:{{crop.height}}%;">
+        <view class="handle lt" data-handle="lt" bindtouchstart="dragStart"></view>
+        <view class="handle rt" data-handle="rt" bindtouchstart="dragStart"></view>
+        <view class="handle lb" data-handle="lb" bindtouchstart="dragStart"></view>
+        <view class="handle rb" data-handle="rb" bindtouchstart="dragStart"></view>
+        <view wx:if="{{showHorizontalMidHandles}}" class="handle t" data-handle="t" bindtouchstart="dragStart"></view>
+        <view wx:if="{{showHorizontalMidHandles}}" class="handle b" data-handle="b" bindtouchstart="dragStart"></view>
+        <view wx:if="{{showVerticalMidHandles}}" class="handle l" data-handle="l" bindtouchstart="dragStart"></view>
+        <view wx:if="{{showVerticalMidHandles}}" class="handle r" data-handle="r" bindtouchstart="dragStart"></view>
+      </view>
+    </view>
+    <view class="tip"><text>单指拖动，双指缩放或旋转，拖动控制点调整边线</text><text wx:if="{{imageScale>1 || imageRotation!==0}}" class="scale-reset" bindtap="resetImageScale">{{imageScaleLabel}} · {{imageRotationLabel}} · 还原</text></view>
+    <view class="capture-guide">
+      <text class="guide-title">整页多题、多种题型均可识别</text>
+      <view class="guide-items">
+        <view class="guide-item"><text class="guide-check">✓</text><text>纵向排列</text></view>
+        <view class="guide-item"><text class="guide-check">✓</text><text>支持双栏</text></view>
+        <view class="guide-item"><text class="guide-check">✓</text><text>题干要求完整</text></view>
+        <view class="guide-item"><text class="guide-check">✓</text><text>四周适当留白</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-panel">
+    <view class="media-button retake-button" data-source="camera" bindtap="chooseImage">重新拍摄</view>
+    <view class="media-button album" data-source="album" bindtap="chooseImage">相册选择</view>
+    <view class="ai-button {{busy || !imagePath?'disabled':''}}" bindtap="recognize"><text class="wand">✦</text>{{busy?'识别中…':'AI识别'}}</view>
+    <view class="privacy-tip">图片仅用于AI识别，识别后可<text>勾选并保存到错题本</text></view>
+  </view>
+  <canvas type="2d" id="cropCanvas" class="hidden-canvas"></canvas>
+</view>

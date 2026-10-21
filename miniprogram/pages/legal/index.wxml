@@ -1,0 +1,21 @@
+<view class="page legal-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}">
+    <view class="nav" style="{{navBarStyle}}">
+      <text class="nav-back" bindtap="back">‹</text>
+      <text class="nav-title">{{document.title}}</text>
+    </view>
+  </view>
+
+  <view class="legal-summary card">
+    <text class="summary-title">{{document.title}}</text>
+    <text class="summary-date">更新日期：{{document.updatedAt}}　生效日期：{{document.effectiveAt}}</text>
+    <text class="summary-intro">{{document.intro}}</text>
+  </view>
+
+  <view wx:for="{{document.sections}}" wx:key="title" class="legal-section">
+    <text class="section-heading">{{index + 1}}. {{item.title}}</text>
+    <text wx:for="{{item.paragraphs}}" wx:for-item="paragraph" wx:key="*this" class="section-paragraph" selectable>{{paragraph}}</text>
+  </view>
+
+  <view class="legal-footer">请在充分阅读并理解后，自主决定是否同意。</view>
+</view>

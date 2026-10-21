@@ -1,0 +1,5 @@
+{
+  "navigationBarTitleText": "智能搜索",
+  "disableSwipeBack": false,
+  "usingComponents": { "question-card": "/components/question-card/index" }
+}

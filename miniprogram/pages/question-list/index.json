@@ -1,0 +1,5 @@
+{
+  "navigationBarTitleText": "我的题库",
+  "disableSwipeBack": false,
+  "usingComponents": { "question-card": "/components/question-card/index" }
+}

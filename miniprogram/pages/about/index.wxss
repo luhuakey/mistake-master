@@ -1,0 +1,22 @@
+.about-page { min-height:100vh; padding-bottom:calc(70rpx + env(safe-area-inset-bottom)); }
+.about-hero { display:flex; flex-direction:column; align-items:center; margin:10rpx 0 28rpx; padding:46rpx 30rpx 40rpx; overflow:hidden; background:linear-gradient(145deg,rgba(255,255,255,.99),rgba(235,253,249,.98)); }
+.brand-mark { width:116rpx; height:116rpx; display:flex; align-items:center; justify-content:center; border:8rpx solid rgba(255,255,255,.86); border-radius:34rpx; color:#fff; background:linear-gradient(135deg,#20d3a0,#079fe4); box-shadow:0 16rpx 34rpx rgba(0,167,172,.2); transform:rotate(-5deg); }
+.brand-mark text { font-size:54rpx; font-weight:800; transform:rotate(5deg); }
+.app-name { margin-top:26rpx; color:#101617; font-size:39rpx; font-weight:800; }
+.app-slogan { margin-top:12rpx; color:#557174; font-size:23rpx; letter-spacing:2rpx; }
+.version-pill { margin-top:22rpx; padding:6rpx 18rpx; border-radius:20rpx; color:#078f8a; background:#e5f8f5; font-size:20rpx; }
+.about-card,.features-card,.service-card,.legal-card { margin-bottom:24rpx; padding:30rpx; }
+.card-title { display:block; color:#111718; font-size:29rpx; font-weight:700; }
+.about-copy,.service-copy { display:block; margin-top:18rpx; color:#4d5c60; font-size:24rpx; line-height:1.8; text-align:justify; }
+.feature-grid { display:grid; grid-template-columns:1fr 1fr; gap:18rpx; margin-top:24rpx; }
+.feature-item { min-width:0; display:flex; align-items:flex-start; padding:20rpx 16rpx; border-radius:20rpx; background:#f3fbfa; }
+.feature-icon { flex:none; width:48rpx; height:48rpx; display:flex; align-items:center; justify-content:center; border-radius:16rpx; color:#078f8a; background:#dff7f3; font-size:22rpx; font-weight:700; }
+.feature-copy { min-width:0; display:flex; flex-direction:column; margin-left:14rpx; }
+.feature-title { color:#162021; font-size:24rpx; font-weight:700; }
+.feature-description { margin-top:7rpx; color:#6a787b; font-size:20rpx; line-height:1.5; }
+.service-notice { margin-top:22rpx; padding:18rpx 20rpx; border-radius:16rpx; color:#6e6c52; background:#fff9e9; font-size:21rpx; line-height:1.6; }
+.legal-card { padding:0 28rpx; }
+.legal-row { min-height:92rpx; display:flex; align-items:center; justify-content:space-between; border-bottom:1rpx solid #e8eeee; color:#253033; font-size:25rpx; }
+.legal-row:last-child { border-bottom:0; }
+.legal-arrow { color:#08a585; font-family:Arial,sans-serif; font-size:44rpx; font-weight:300; }
+.about-footer { display:block; margin:38rpx 0 12rpx; color:#8a9698; font-size:22rpx; text-align:center; }

@@ -1,0 +1,4 @@
+{
+  "desc": "学霸省题页面索引配置",
+  "rules": [{ "action": "disallow", "page": "*" }]
+}

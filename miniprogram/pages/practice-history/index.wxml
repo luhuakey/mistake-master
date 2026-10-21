@@ -1,0 +1,57 @@
+<view class="page history-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}"><view class="nav" style="{{navBarStyle}}"><text class="nav-back" bindtap="back">‹</text><text class="nav-title">学习记录</text></view></view>
+
+  <view class="checkin-card card">
+    <view class="checkin-header">
+      <text class="checkin-title">打卡日历</text>
+      <view wx:if="{{checkinSelectedDate}}" class="checkin-all" bindtap="showAllRecords" aria-role="button" aria-label="查看全部练习记录">全部练习 ›</view>
+    </view>
+    <view class="checkin-month-nav">
+      <view class="checkin-month-btn" data-delta="-1" bindtap="changeCheckinMonth" aria-role="button" aria-label="上个月">‹</view>
+      <text class="checkin-month-label">{{checkinMonthLabel}}</text>
+      <view class="checkin-month-btn" data-delta="1" bindtap="changeCheckinMonth" aria-role="button" aria-label="下个月">›</view>
+    </view>
+    <view class="checkin-weekdays">
+      <text wx:for="{{checkinWeekdays}}" wx:key="*this">{{item}}</text>
+    </view>
+    <view wx:if="{{checkinLoading}}" class="checkin-loading">加载中…</view>
+    <view wx:else class="checkin-weeks">
+      <view wx:for="{{checkinWeeks}}" wx:key="index" wx:for-item="week" class="checkin-week">
+        <view
+          wx:for="{{week}}"
+          wx:key="key"
+          wx:for-item="cell"
+          class="checkin-cell {{cell.date===checkinSelectedDate?'is-selected':''}} {{cell.currentMonth?'is-current':''}}"
+          data-date="{{cell.date}}"
+          data-day="{{cell.day}}"
+          bindtap="selectCheckinDay"
+        >
+          <text wx:if="{{cell.day}}" class="checkin-day {{cell.marked?'is-marked':''}}">{{cell.day}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading"><app-loading/></view>
+  <block wx:else>
+    <view class="history-summary">
+      <view class="summary-item"><text class="summary-label">累计练习</text><view class="summary-value"><text class="summary-number">{{summary.practice_count}}</text><text class="summary-unit">次</text></view></view>
+      <view class="summary-item"><text class="summary-label">累计做题</text><view class="summary-value"><text class="summary-number">{{summary.question_count}}</text><text class="summary-unit">道</text></view></view>
+      <view class="summary-item"><text class="summary-label">平均正确率</text><view class="summary-value"><text class="summary-number">{{summary.average_accuracy===null?'--':summary.average_accuracy+'%'}}</text></view></view>
+    </view>
+
+    <view wx:if="{{recordsLoading}}" class="checkin-loading">加载中…</view>
+    <view wx:elif="{{!items.length}}" class="empty card">{{checkinSelectedDate ? '当天无练习记录' : '暂无练习记录'}}</view>
+    <view wx:for="{{items}}" wx:key="_id" class="record card" data-id="{{item._id}}" bindtap="open">
+      <view class="time"><text>{{item.dateLabel}}</text><text>{{item.clockLabel}}</text></view>
+      <view class="info"><text class="type {{item.type==='recommended'?'':'review'}}">{{item.typeLabel}}</text><text class="subject-label">{{item.subjectLabel}}</text></view>
+      <text class="accuracy">{{item.accuracyLabel}}</text><text class="arrow">›</text>
+      <view wx:if="{{item.total_count}}" class="record-line">
+        <view class="accuracy-track" aria-role="progressbar" aria-label="本次练习正确率 {{item.accuracyPercent}}%">
+          <view class="accuracy-progress" style="width:{{item.accuracyPercent}}%"></view>
+        </view>
+        <text>本次{{item.total_count}}道题</text>
+      </view>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/login/index",
+    "pages/legal/index",
+    "pages/crop/index",
+    "pages/recognition/index",
+    "pages/question-list/index",
+    "pages/question-detail/index",
+    "pages/smart-search/index",
+    "pages/practice/index",
+    "pages/practice-result/index",
+    "pages/practice-history/index",
+    "pages/recognition-history/index",
+    "pages/data-export/index",
+    "pages/mastery/index",
+    "pages/about/index",
+    "pages/settings/index",
+    "pages/points/index",
+    "pages/points-history/index",
+    "pages/profile/index"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundColor": "#f6fbfb",
+    "backgroundTextStyle": "dark"
+  },
+  "networkTimeout": {
+    "request": 30000,
+    "uploadFile": 240000,
+    "downloadFile": 60000,
+    "connectSocket": 30000
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#72777b",
+    "selectedColor": "#08a7a0",
+    "backgroundColor": "#ffffff",
+    "list": [
+      { "pagePath": "pages/home/index", "text": "首页" },
+      { "pagePath": "pages/question-list/index", "text": "题库" },
+      { "pagePath": "pages/practice/index", "text": "练习" },
+      { "pagePath": "pages/profile/index", "text": "我的" }
+    ]
+  },
+  "usingComponents": {
+    "app-loading": "/components/app-loading/index",
+    "math-text": "/components/math-text/index"
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

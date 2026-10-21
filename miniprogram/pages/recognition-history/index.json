@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "拍照识别记录",
+  "usingComponents": {
+    "question-card": "/components/question-card/index"
+  }
+}

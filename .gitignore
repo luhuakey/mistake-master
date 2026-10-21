@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+miniprogram/miniprogram_npm/
+server/.env
+server/coverage/
+*.log

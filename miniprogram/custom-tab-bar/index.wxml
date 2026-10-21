@@ -1,0 +1,8 @@
+<view wx:if="{{!hidden}}" class="tabbar">
+  <view wx:for="{{items}}" wx:key="text" class="tab {{selected === index ? 'active' : ''}}" data-index="{{index}}" bindtap="onTap">
+    <view class="tab-icon-slot">
+      <view class="tab-icon tab-icon-{{item.icon}}"><view class="icon-detail"></view></view>
+    </view>
+    <text class="tab-label">{{item.text}}</text>
+  </view>
+</view>

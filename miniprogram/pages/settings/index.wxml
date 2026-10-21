@@ -1,0 +1,92 @@
+<page-meta page-style="{{subjectDragKey?'overflow:hidden;':''}}"/>
+<view class="page settings-page {{subjectDragKey?'subject-drag-active':''}}">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}">
+    <view class="nav" style="{{navBarStyle}}">
+      <text class="nav-back" bindtap="back">‹</text>
+      <text class="nav-title">学习设置</text>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading"><app-loading tips="加载设置"/></view>
+  <block wx:else>
+    <view class="settings-section card">
+      <text class="section-title">学习与提醒</text>
+      <view class="setting-item">
+        <view class="setting-copy"><text class="setting-title">前台学习提醒</text><text class="setting-description">到点且小程序处于前台时，弹窗提醒开始今日巩固</text></view>
+        <switch color="#08b69f" checked="{{notificationEnabled}}" bindchange="toggleNotification"/>
+      </view>
+      <picker wx:if="{{notificationEnabled}}" mode="time" value="{{reminderTime}}" bindchange="changeReminderTime">
+        <view class="picker-row"><view class="setting-copy"><text class="setting-title">提醒时间</text><text class="setting-description">今天未提醒时，将在设定时间触发一次</text></view><view class="picker-value"><text>{{reminderTime}}</text><text class="picker-arrow">›</text></view></view>
+      </picker>
+      <picker wx:if="{{notificationEnabled}}" mode="selector" range="{{reminderFrequencyOptions}}" range-key="label" value="{{reminderFrequencyIndex}}" bindchange="changeReminderFrequency">
+        <view class="picker-row"><view class="setting-copy"><text class="setting-title">提醒频率</text><text class="setting-description">选择每天或仅周一至周五</text></view><view class="picker-value"><text>{{reminderFrequencyOptions[reminderFrequencyIndex].label}}</text><text class="picker-arrow">›</text></view></view>
+      </picker>
+    </view>
+
+    <view class="settings-section card">
+      <text class="section-title">智能推题</text>
+      <view class="setting-item">
+        <view class="setting-copy"><text class="setting-title">优先巩固薄弱知识点</text><text class="setting-description">根据知识点掌握度优先推荐需要加强的错题</text></view>
+        <switch color="#08b69f" checked="{{recommendationWeakFirst}}" bindchange="toggleWeakFirst"/>
+      </view>
+      <view class="difficulty-setting">
+        <view class="difficulty-heading">
+          <text class="setting-title">推题难度</text>
+          <text class="setting-description">仅调整推荐优先级，不会完全排除其他难度的薄弱题</text>
+        </view>
+        <view class="difficulty-options">
+          <view
+            wx:for="{{difficultyOptions}}"
+            wx:key="key"
+            class="difficulty-option {{difficultyIndex===index?'active':''}}"
+            data-index="{{index}}"
+            bindtap="selectDifficulty"
+            aria-role="radio"
+            aria-checked="{{difficultyIndex===index}}"
+          >
+            <view class="difficulty-option-head"><text class="difficulty-radio"></text><text class="difficulty-label">{{item.label}}</text><text wx:if="{{item.key==='adaptive'}}" class="recommended-badge">推荐</text></view>
+            <text class="difficulty-description">{{item.description}}</text>
+          </view>
+        </view>
+      </view>
+      <picker mode="selector" range="{{practiceQuestionLimitOptions}}" range-key="label" value="{{practiceQuestionLimitIndex}}" bindchange="changePracticeQuestionLimit">
+        <view class="picker-row">
+          <view class="setting-copy"><text class="setting-title">每次练习最多题数</text><text class="setting-description">题库不足时，将使用当前全部可练习题目</text></view>
+          <view class="picker-value"><text>{{practiceQuestionLimitOptions[practiceQuestionLimitIndex].label}}</text><text class="picker-arrow">›</text></view>
+        </view>
+      </picker>
+      <picker mode="selector" range="{{masteredQuestionRatioOptions}}" range-key="label" value="{{masteredQuestionRatioIndex}}" bindchange="changeMasteredQuestionRatio">
+        <view class="picker-row">
+          <view class="setting-copy"><text class="setting-title">综合练习已掌握题占比</text><text class="setting-description">{{masteredQuestionRatioOptions[masteredQuestionRatioIndex].description}}</text></view>
+          <view class="picker-value"><text>{{masteredQuestionRatioOptions[masteredQuestionRatioIndex].label}}</text><text class="picker-arrow">›</text></view>
+        </view>
+      </picker>
+      <view class="ai-note">占比是综合练习中的目标上限；未掌握题不足时会使用已掌握题补足。默认 20%，用于兼顾薄弱巩固和间隔复习。设置变化后，新生成的练习会自动使用最新策略。</view>
+    </view>
+
+    <view class="settings-section card">
+      <text class="section-title">题库科目</text>
+      <text class="section-description">点击选择常用科目；长按已选科目，浮起后拖动即可排序，至少保留一个</text>
+      <view class="subject-grid">
+        <view
+          wx:for="{{subjects}}"
+          wx:key="key"
+          class="subject-chip {{item.enabled?'active':''}} {{subjectDragKey===item.key?'dragging':''}}"
+          data-key="{{item.key}}"
+          bindtap="toggleSubject"
+          bindlongpress="dragSubjectStart"
+          bindtouchmove="dragSubjectMove"
+          bindtouchend="dragSubjectEnd"
+          bindtouchcancel="dragSubjectEnd"
+          aria-role="checkbox"
+          aria-checked="{{item.enabled}}"
+          aria-label="{{item.enabled?'已选择':'未选择'}}{{item.label}}{{item.enabled?'，可长按拖动排序':''}}"
+        >
+          <text class="subject-check">{{item.enabled?'✓':''}}</text><text>{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <button class="save-button" bindtap="save" loading="{{saving}}" disabled="{{saving}}">{{saving?'保存中':'保存设置'}}</button>
+  </block>
+</view>

@@ -1,0 +1,22 @@
+{
+  "libVersion": "3.17.1",
+  "projectname": "%E5%AD%A6%E9%9C%B8%E9%94%99%E9%A2%98%E6%9C%ACaliOCR",
+  "setting": {
+    "urlCheck": false,
+    "coverView": false,
+    "lazyloadPlaceholderEnable": false,
+    "skylineRenderEnable": false,
+    "preloadBackgroundData": false,
+    "autoAudits": false,
+    "useApiHook": true,
+    "showShadowRootInWxmlPanel": false,
+    "useStaticServer": false,
+    "useLanDebug": false,
+    "showES6CompileOption": false,
+    "compileHotReLoad": true,
+    "checkInvalidKey": true,
+    "ignoreDevUnusedFiles": true,
+    "bigPackageSizeSupport": false,
+    "useGlassEaselForWxml": false
+  }
+}

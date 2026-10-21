@@ -1,0 +1,125 @@
+<view class="page library-page">
+  <view class="library-fixed-header">
+    <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}">
+      <view class="nav" style="{{navBarStyle}}">
+        <text class="nav-back" bindtap="back">‹</text>
+        <text class="nav-title">我的题库</text>
+      </view>
+    </view>
+
+    <view class="search-box">
+      <view class="search-symbol"></view>
+      <input placeholder="搜索错题或知识点…" value="{{keyword}}" bindinput="input" bindconfirm="search" confirm-type="search"/>
+    </view>
+    <view wx:if="{{!isGuest}}" class="semantic-search-hint">
+      <text class="semantic-search-hint-icon">✦</text>
+      <text>可直接描述题意，如“含有比喻的成语题”，也可搜索题干或知识点</text>
+    </view>
+
+    <view class="filters-bar">
+      <view data-key="all" bindtap="filter" class="filter filter-all-fixed {{activeFilter==='all'?'active':''}}">全部</view>
+      <scroll-view class="filters-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" enable-flex="{{true}}">
+        <view class="filters">
+          <view wx:for="{{filters}}" wx:if="{{item.key!=='all'}}" wx:key="key" data-key="{{item.key}}" bindtap="filter" class="filter {{activeFilter===item.key?'active':''}}">{{item.label}}</view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <scroll-view
+    class="library-scroll"
+    scroll-y="{{true}}"
+    enhanced="{{true}}"
+    bounces="{{false}}"
+    show-scrollbar="{{false}}"
+    scroll-with-animation="{{true}}"
+    scroll-into-view="{{scrollIntoView}}"
+    scroll-top="{{scrollTop}}"
+    lower-threshold="160"
+    refresher-enabled="{{true}}"
+    refresher-triggered="{{refreshing}}"
+    refresher-default-style="none"
+    refresher-background="#fbfefd"
+    bindscroll="onLibraryScroll"
+    bindtouchstart="onLibraryTouchStart"
+    bindtouchmove="onLibraryTouchMove"
+    bindtouchend="onLibraryTouchEnd"
+    bindtouchcancel="onLibraryTouchEnd"
+    bindscrolltolower="loadMore"
+    bindrefresherrefresh="refresh"
+  >
+    <view
+      id="library-top"
+      class="library-scroll-content {{bottomPullReleasing?'bottom-pull-releasing':''}}"
+      style="transform:translate3d(0,-{{bottomPullDistance}}px,0);"
+    >
+      <view wx:if="{{refreshFeedback}}" class="refresh-feedback {{refreshFeedback==='success'?'refresh-success':''}}" aria-live="polite">
+        <view wx:if="{{refreshFeedback==='loading'}}" class="refresh-spinner"></view>
+        <view wx:else class="refresh-check">✓</view>
+        <text>{{refreshFeedback==='loading'?'正在刷新当前筛选…':'刷新完成'}}</text>
+      </view>
+
+      <view wx:if="{{filterNotice}}" class="filter-notice">{{filterNotice}}</view>
+      <view wx:if="{{isGuest && items.length}}" class="guest-preview-notice">
+        <view class="guest-preview-copy">
+          <text class="guest-preview-title">游客模式支持体验题关键词搜索</text>
+          <text class="guest-preview-subtitle">登录后可按题意智能搜索个人题库</text>
+        </view>
+        <text class="guest-preview-login" bindtap="openLogin" aria-role="button">去登录</text>
+      </view>
+      <view wx:if="{{loading}}" class="loading"><app-loading tips="加载中"/></view>
+      <view wx:elif="{{!items.length}}" class="empty card">
+        <text>{{isGuest?'当前为游客浏览，登录后可查看个人错题':'暂无符合条件的错题'}}</text>
+        <button wx:if="{{isGuest}}" class="guest-login-button" bindtap="openLogin">自愿登录</button>
+      </view>
+      <block wx:else>
+        <question-card wx:for="{{items}}" wx:key="id" question="{{item}}" bind:select="openQuestion"/>
+        <view class="load-more-state" aria-live="polite">
+          <view wx:if="{{loadingMore}}" class="load-more-content">
+            <view class="load-more-spinner"></view>
+            <text>正在加载更多题目</text>
+          </view>
+          <text wx:elif="{{hasMore}}">继续上滑加载更多</text>
+          <text wx:else>已显示全部题目</text>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+
+  <view class="mastery-toolbar">
+    <view class="mastery-segments">
+      <view
+        class="mastery-option all-option {{masteryFilter==='all'?'active':''}}"
+        data-status="all"
+        bindtap="toggleMasteryFilter"
+        aria-role="button"
+        aria-label="显示全部题目"
+      ><text class="mastery-label">全部</text><text class="mastery-count">{{masteryDisplayCounts.total}}</text></view>
+      <view
+        class="mastery-option unmastered-option {{masteryFilter==='unmastered'?'active':''}}"
+        data-status="unmastered"
+        bindtap="toggleMasteryFilter"
+        aria-role="button"
+        aria-label="筛选未掌握题目"
+      ><view class="mastery-dot unmastered"></view><text class="mastery-label">未掌握</text><text class="mastery-count">{{masteryDisplayCounts.unmastered}}</text></view>
+      <view
+        class="mastery-option mastered-option {{masteryFilter==='mastered'?'active':''}}"
+        data-status="mastered"
+        bindtap="toggleMasteryFilter"
+        aria-role="button"
+        aria-label="筛选已掌握题目"
+      ><view class="mastery-dot mastered"></view><text class="mastery-label">已掌握</text><text class="mastery-count">{{masteryDisplayCounts.mastered}}</text></view>
+    </view>
+    <view class="mastery-arrow" catchtap="openMastery" aria-role="button" aria-label="查看知识点掌握度">›</view>
+  </view>
+
+  <page-container
+    wx:if="{{backGuardVisible}}"
+    show="{{true}}"
+    overlay="{{false}}"
+    duration="{{0}}"
+    position="right"
+    custom-style="width:0;height:0;background:transparent;"
+    bindbeforeleave="onBackGuardLeave"
+  />
+</view>

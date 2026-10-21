@@ -1,0 +1,11 @@
+{
+  "name": "mistake-master",
+  "version": "1.1.2",
+  "private": true,
+  "scripts": {
+    "install:all": "npm --prefix server install && npm --prefix miniprogram install",
+    "start": "npm --prefix server start",
+    "dev": "npm --prefix server run dev",
+    "test": "npm --prefix server test"
+  }
+}

@@ -1,0 +1,27 @@
+<view class="page export-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}">
+    <view class="nav" style="{{navBarStyle}}"><text class="nav-back" bindtap="back">‹</text><text class="nav-title">数据导出</text></view>
+  </view>
+
+  <view class="export-hero card">
+    <view class="export-icon"><text>↓</text></view>
+    <text class="export-title">导出我的学习数据</text>
+    <text class="export-copy">生成包含错题、答案解析与练习记录的 PDF，打开后可使用右上角菜单保存或转发。</text>
+  </view>
+
+  <view class="export-summary card">
+    <view><text class="summary-number">{{loading?'--':questionCount}}</text><text class="summary-label">错题记录</text></view>
+    <view class="summary-divider"></view>
+    <view><text class="summary-number">{{loading?'--':practiceCount}}</text><text class="summary-label">练习记录</text></view>
+  </view>
+
+  <view class="format-card card">
+    <text class="format-title">导出内容</text>
+    <view class="format-row"><text class="format-badge">PDF</text><view><text>可阅读学习报告</text><text>包含错题、选项、正确答案、解析与练习统计</text></view><text class="check">✓</text></view>
+    <view class="format-row"><text class="format-badge secondary">ZIP</text><view><text>完整数据包</text><text>服务端同时生成 PDF 与 Markdown 归档</text></view><text class="check">✓</text></view>
+  </view>
+
+  <view wx:if="{{lastExport}}" class="success-note">上次导出完成：{{lastExport.question_count}}道错题、{{lastExport.practice_record_count}}条练习记录</view>
+  <button class="export-button" loading="{{exporting}}" disabled="{{exporting || loading}}" bindtap="exportData">{{exporting?'正在生成…':'生成并打开 PDF'}}</button>
+  <text class="privacy-note">仅导出当前账号的学习数据</text>
+</view>

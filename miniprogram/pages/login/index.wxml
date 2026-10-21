@@ -1,0 +1,67 @@
+<view class="login-page">
+  <image
+    class="prototype-background"
+    src="/assets/login/welcome-clean.jpg"
+    mode="scaleToFill"
+    fade-in="{{false}}"
+    aria-hidden="true"
+  />
+
+  <view class="prototype-frame" style="{{frameStyle}}">
+    <view class="brand-copy">
+      <text class="brand-title">学霸省题</text>
+      <text class="brand-subtitle">拍照收录 · AI解析 · 智能推荐</text>
+    </view>
+
+    <view class="feature-list" aria-label="核心功能">
+      <view class="feature-item">
+        <image class="feature-icon" src="/assets/login/icon-camera.svg" mode="aspectFit" aria-hidden="true" />
+        <text class="feature-title">拍照识别</text>
+        <text class="feature-description">快速收录错题</text>
+      </view>
+      <view class="feature-divider"></view>
+      <view class="feature-item">
+        <image class="feature-icon" src="/assets/login/icon-ai.svg" mode="aspectFit" aria-hidden="true" />
+        <text class="feature-title">智能AI生成</text>
+        <text class="feature-description">解析与易错点</text>
+      </view>
+      <view class="feature-divider"></view>
+      <view class="feature-item">
+        <image class="feature-icon" src="/assets/login/icon-recommend.svg" mode="aspectFit" aria-hidden="true" />
+        <text class="feature-title">智能推荐</text>
+        <text class="feature-description">薄弱知识点</text>
+      </view>
+    </view>
+
+    <view
+      class="login-button {{agreed ? '' : 'login-button-unchecked'}} {{loading ? 'login-button-disabled' : ''}}"
+      bindtap="login"
+      aria-role="button"
+      aria-disabled="{{loading}}"
+      aria-label="微信一键登录"
+    >
+      <image class="wechat-mark" src="/assets/login/icon-wechat.svg" mode="aspectFit" aria-hidden="true" />
+      <text>{{loading ? '登录中…' : '微信一键登录'}}</text>
+    </view>
+
+    <view class="agreement-consent" catchtap="toggleAgreement" aria-role="checkbox" aria-checked="{{agreed}}">
+      <view class="agreement-check {{agreed?'agreement-check-checked':''}}">
+        <text wx:if="{{agreed}}">✓</text>
+      </view>
+      <text class="agreement-copy">我已阅读并同意</text>
+      <text class="agreement-link" data-type="agreement" catchtap="showAgreement">《用户服务协议》</text>
+      <text class="agreement-link" data-type="privacy" catchtap="showAgreement">《隐私政策》</text>
+    </view>
+
+    <view
+      class="guest-entry {{loading ? 'guest-entry-disabled' : ''}}"
+      catchtap="continueAsGuest"
+      aria-role="button"
+      aria-label="暂不登录，继续体验"
+    >
+      <view class="guest-entry-line"></view>
+      <text class="guest-entry-text">暂不登录，继续体验</text>
+      <view class="guest-entry-line"></view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,16 @@
+{
+  "users": [["openid"]],
+  "recognition_tasks": [["user_id", "created_at"]],
+  "questions": [
+    ["user_id", "subject", "created_at"],
+    ["user_id", "mastery_status", "created_at"],
+    ["user_id", "knowledge_points", "created_at"]
+  ],
+  "daily_recommendations": [["user_id", "subject", "date_key"]],
+  "practice_sessions": [["user_id", "status", "created_at"]],
+  "practice_records": [["user_id", "submitted_at"], ["session_id"]],
+  "knowledge_point_stats": [["user_id", "subject", "knowledge_point"]],
+  "point_accounts": [["user_id"]],
+  "point_transactions": [["user_id", "created_at"], ["user_id", "date_key", "rule_code"]],
+  "point_daily_counters": [["user_id", "date_key"]]
+}

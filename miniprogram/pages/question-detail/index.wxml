@@ -1,0 +1,55 @@
+<view class="page detail-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}"><view class="nav" style="{{navBarStyle}}"><text class="nav-back" bindtap="back">‹</text><text class="nav-title">题目详情</text></view></view>
+
+  <view wx:if="{{loading}}" class="loading"><app-loading/></view>
+  <block wx:elif="{{question}}">
+    <view class="meta">
+      <view class="meta-filter meta-outline" data-filter="subject" data-value="{{question.subject}}" bindtap="openFilteredList" aria-role="button" aria-label="查看{{subjectLabel}}题目">{{subjectLabel}}</view>
+      <view class="meta-filter meta-primary" data-filter="type" data-value="{{question.type}}" bindtap="openFilteredList" aria-role="button" aria-label="查看同题型题目">{{typeLabel}}</view>
+      <text class="meta-caption">难度</text>
+      <view class="meta-filter meta-outline" data-filter="difficulty" data-value="{{question.difficulty}}" bindtap="openFilteredList" aria-role="button" aria-label="查看{{difficultyLabel}}题目">{{difficultyLabel}}</view>
+      <text class="meta-date">{{dateLabel}}</text>
+    </view>
+
+    <view class="question card">
+      <view class="stem"><text class="stem-label">错题</text><math-text value="{{question.stem}}"/></view>
+      <view wx:if="{{questionImageUrl}}" class="question-illustration" bindtap="previewQuestionImage" aria-role="button" aria-label="查看原题配图">
+        <image src="{{questionImageUrl}}" mode="widthFix" style="width:{{questionImageWidth}};" lazy-load="{{true}}"/>
+        <text>原题配图 · 轻触可放大</text>
+      </view>
+      <view wx:if="{{optionItems.length}}" class="options">
+        <view wx:for="{{optionItems}}" wx:key="key" class="option {{item.correct?'correct':''}}">
+          <text class="option-letter">{{item.key}}</text><math-text value="{{item.text}}"/>
+          <text wx:if="{{item.correct}}" class="check">✓</text>
+        </view>
+      </view>
+      <view class="answer"><text>参考答案：</text><math-text value="{{question.correct_answer}}"/></view>
+    </view>
+
+    <view class="analysis detail-block {{analysisExpanded?'expanded':''}}" data-key="analysisExpanded" bindtap="toggleBlock" aria-role="button" aria-expanded="{{analysisExpanded}}">
+      <view class="block-symbol check-symbol">✓</view>
+      <view class="block-content"><view class="block-title">解析</view><view class="block-text {{analysisExpanded?'block-text-expanded':''}}"><math-text value="{{question.analysis}}"/></view></view>
+      <text class="block-arrow {{analysisExpanded?'block-arrow-expanded':''}}">›</text>
+    </view>
+
+    <view class="warning detail-block {{warningExpanded?'expanded':''}}" data-key="warningExpanded" bindtap="toggleBlock" aria-role="button" aria-expanded="{{warningExpanded}}">
+      <view class="warning-symbol">!</view>
+      <view class="block-content"><view class="block-title">易错点分析</view><view class="block-text {{warningExpanded?'block-text-expanded':''}}"><math-text value="{{question.error_prone_point}}"/></view></view>
+      <text class="block-arrow {{warningExpanded?'block-arrow-expanded':''}}">›</text>
+    </view>
+
+    <view class="knowledge card">
+      <view class="knowledge-head" bindtap="openRelatedKnowledgeList" aria-role="button" aria-label="查看全部相关知识点题目"><text class="block-title">涉及知识点</text><text class="knowledge-action">查看相关题目 <text class="block-arrow">›</text></text></view>
+      <view><text wx:for="{{question.knowledge_points}}" wx:key="*this" class="tag knowledge-tag" data-point="{{item}}" catchtap="openKnowledgeList">{{item}}</text></view>
+    </view>
+
+    <view wx:if="{{isGuestPreview}}" class="guest-readonly fixed-action" bindtap="openLogin">
+      <view><text class="guest-readonly-title">示例题目仅供查看</text><text class="guest-readonly-subtitle">登录后可管理错题并立即重练</text></view>
+      <text class="guest-readonly-arrow">›</text>
+    </view>
+    <view wx:else class="actions fixed-action">
+      <view class="master {{question.mastery_status==='mastered'?'to-unmastered':'to-mastered'}}" bindtap="toggleMastery">{{question.mastery_status==='mastered'?'标记未掌握':'标记已掌握'}}</view>
+      <view class="practice {{canPractice?'':'practice-disabled'}}" bindtap="practice">{{canPractice?'立即重练':'暂不支持练习'}}</view>
+    </view>
+  </block>
+</view>

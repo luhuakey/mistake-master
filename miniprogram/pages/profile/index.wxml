@@ -1,0 +1,91 @@
+<view class="page profile-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}"><view class="nav" style="{{navBarStyle}}"><text class="nav-title">个人中心</text></view></view>
+  <view wx:if="{{loading}}" class="loading"><app-loading/></view>
+  <view wx:elif="{{isGuest}}" class="guest-profile card">
+    <image class="guest-avatar" src="{{avatarSrc}}" mode="aspectFill"/>
+    <text class="guest-title">游客浏览</text>
+    <text class="guest-description">你可先浏览首页和题库，需要同步错题、练习记录时再登录。</text>
+    <button class="guest-profile-login" bindtap="openLogin">自愿登录</button>
+    <text class="guest-description">登录不会自动索取手机号码、头像或昵称</text>
+  </view>
+  <block wx:elif="{{profile}}">
+    <view class="hero">
+      <view class="hero-ring"></view>
+      <button class="avatar-button {{uploadingAvatar?'is-uploading':''}}" bindtap="selectAvatar" hover-class="none" aria-label="选择并更换头像">
+        <image class="avatar" src="{{avatarSrc}}" mode="aspectFill"/>
+      </button>
+      <view class="user-copy">
+        <view wx:if="{{!editingNickname}}" class="nickname-line" bindtap="startEditNickname" aria-role="button" aria-label="编辑姓名">
+          <text class="nickname">{{profile.user.nickname || '学霸同学'}}</text>
+          <view class="nickname-edit-icon" aria-hidden="true"><image src="/assets/profile/icon-edit.svg" mode="aspectFit"/></view>
+        </view>
+        <view wx:else class="nickname-editor">
+          <input class="nickname-input" type="text" maxlength="20" value="{{draftNickname}}" bindinput="inputNickname" bindconfirm="saveNickname" confirm-type="done" focus="{{editingNickname}}" placeholder="请输入名称"/>
+          <text class="nickname-save" bindtap="saveNickname">{{savingNickname?'保存中':'保存'}}</text>
+          <text class="nickname-cancel" bindtap="cancelNickname">取消</text>
+        </view>
+        <view class="streak study-records-trigger" bindtap="openStudyRecords" aria-role="button" aria-label="查看学习记录">已坚持学习 <text>{{profile.stats.total_study_days}}</text> 天</view>
+      </view>
+    </view>
+
+    <view class="stats card">
+      <view><text class="stat-label">总错题</text><view><text class="stat-number">{{profile.stats.total_questions}}</text><text>道</text></view></view>
+      <view><text class="stat-label">已掌握</text><view><text class="stat-number">{{profile.stats.mastered_questions}}</text><text>道</text></view></view>
+      <view><text class="stat-label">正确率</text><view><text class="stat-number">{{profile.stats.accuracy===null?'--':profile.stats.accuracy}}</text><text>%</text></view></view>
+      <view><view class="stat-label-row"><text class="stat-label">连续打卡</text><view wx:if="{{profile.stats.streak_days>3}}" class="streak-fire" aria-hidden="true"><image class="streak-fire-icon" src="/assets/profile/icon-fire.svg" mode="aspectFit"/></view></view><view class="study-records-trigger" bindtap="openStudyRecords" aria-role="button" aria-label="查看学习记录"><text class="stat-number">{{profile.stats.streak_days}}</text><text>天</text></view></view>
+    </view>
+
+    <view class="points-entry card" bindtap="openPoints" aria-role="button" aria-label="打开学习积分">
+      <view class="points-medal" aria-hidden="true">★</view>
+      <view class="points-entry-copy">
+        <text class="points-entry-title">我的积分</text>
+        <text class="points-entry-subtitle">{{profile.points.status==='active'?'记录每一次真实学习':(profile.points.status==='inactive'?'开启后从当前学习行为开始计分':'现有学习功能不受影响')}}</text>
+      </view>
+      <view class="points-entry-value">
+        <block wx:if="{{profile.points.status==='active'}}"><text>{{profile.points.balance}}</text><text class="points-unit">积分</text></block>
+        <text wx:elif="{{profile.points.status==='inactive'}}" class="points-enable">开启学习积分</text>
+        <text wx:else class="points-enable">积分升级中</text>
+      </view>
+      <text class="points-arrow">›</text>
+    </view>
+
+    <view class="profile-row card">
+      <view class="row-primary" bindtap="openQuestions" aria-role="button" aria-label="打开我的题库">
+        <view class="row-leading"><view class="menu-icon icon-blue"><image class="menu-icon-image" src="/assets/profile/icon-library.svg" mode="aspectFit" aria-hidden="true"/></view><view><text class="menu-title">学习管理</text><text class="menu-subtitle">我的题库</text></view></view>
+        <text class="row-count">+{{profile.stats.total_questions}}</text>
+      </view>
+      <view class="row-link" bindtap="openMastery">知识点掌握度<text>›</text></view>
+    </view>
+
+    <view class="profile-row card">
+      <view class="row-primary" bindtap="openRecognitions" aria-role="button" aria-label="打开拍照识别记录"><view class="row-leading"><view class="menu-icon icon-green"><image class="menu-icon-image" src="/assets/profile/icon-tools.svg" mode="aspectFit" aria-hidden="true"/></view><view><text class="menu-title">工具与服务</text><text class="menu-subtitle">拍照识别记录</text></view></view></view>
+      <view class="row-link" bindtap="openStudyRecords">学习记录<text>›</text></view>
+    </view>
+
+    <view class="profile-row card">
+      <view class="row-primary" bindtap="openExport" aria-role="button" aria-label="打开数据导出">
+        <view class="row-leading">
+          <view class="menu-icon icon-green"><image class="menu-icon-image" src="/assets/profile/icon-export.svg" mode="aspectFit" aria-hidden="true"/></view>
+          <view><text class="menu-title">数据导出</text><text class="menu-subtitle">导出错题与学习记录</text></view>
+        </view>
+      </view>
+      <view class="row-link" bindtap="openAbout">关于我们<text>›</text></view>
+    </view>
+
+    <view class="settings-card card">
+      <view class="setting-row" bindtap="openSettings" aria-role="button" aria-label="打开学习设置"><view class="row-leading"><view class="menu-icon icon-green"><image class="menu-icon-image" src="/assets/profile/icon-settings.svg" mode="aspectFit" aria-hidden="true"/></view><view><text class="menu-title">学习设置</text><text class="menu-subtitle">学习提醒、智能推题与题库科目</text></view></view><text class="setting-arrow">›</text></view>
+      <view class="setting-row" bindtap="openPrivacy" aria-role="button" aria-label="打开隐私说明"><view class="row-leading"><view class="menu-icon icon-blue"><image class="menu-icon-image" src="/assets/profile/icon-privacy.svg" mode="aspectFit" aria-hidden="true"/></view><view><text class="menu-title">隐私说明</text><text class="menu-subtitle">查看隐私政策与个人信息说明</text></view></view><text class="setting-arrow">›</text></view>
+    </view>
+    <button
+      class="logout-button"
+      bindtap="logout"
+      loading="{{loggingOut}}"
+      disabled="{{loggingOut}}"
+      hover-class="logout-button-hover"
+      aria-label="退出当前账号"
+    >退出登录</button>
+    <view class="version">{{appVersion}}</view>
+  </block>
+
+  <canvas type="2d" id="avatarCanvas" class="avatar-canvas" aria-hidden="true"></canvas>
+</view>

@@ -1,0 +1,8 @@
+{
+  "name": "mistake-master-miniprogram",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "weui-miniprogram": "^1.4.2"
+  }
+}

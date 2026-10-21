@@ -1,0 +1,254 @@
+page {
+  height: 100%;
+  overflow: hidden;
+  background: #10aecd;
+}
+
+.login-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(180deg, #52dec2 0%, #11bec3 48%, #078fd0 100%);
+}
+
+.prototype-frame {
+  position: absolute;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.prototype-background {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.brand-copy {
+  position: absolute;
+  z-index: 2;
+  top: 11.4%;
+  left: 7%;
+  width: 86%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: #fff;
+  text-align: center;
+}
+
+.brand-title {
+  font-size: 90rpx;
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: 4rpx;
+}
+
+.brand-subtitle {
+  margin-top: 24rpx;
+  font-size: 31rpx;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 1rpx;
+}
+
+.feature-list {
+  position: absolute;
+  z-index: 2;
+  top: 63.2%;
+  left: 8%;
+  width: 84%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.feature-item {
+  width: 31%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.feature-icon {
+  width: 62rpx;
+  height: 62rpx;
+  display: block;
+  margin-bottom: 17rpx;
+}
+
+.feature-title,
+.feature-description {
+  display: block;
+  white-space: nowrap;
+}
+
+.feature-title {
+  font-size: 25rpx;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.feature-description {
+  margin-top: 4rpx;
+  color: rgba(255, 255, 255, .9);
+  font-size: 22rpx;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.feature-divider {
+  width: 1rpx;
+  height: 104rpx;
+  background: rgba(255, 255, 255, .28);
+}
+
+.login-button {
+  position: absolute;
+  z-index: 3;
+  top: 81.4%;
+  left: 8.1%;
+  right: 8.1%;
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 36rpx;
+  border: 0;
+  border-radius: 999rpx;
+  color: #087f71;
+  background: rgba(255, 255, 255, .97);
+  font-size: 31rpx;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 1rpx;
+  box-shadow: 0 10rpx 26rpx rgba(0, 88, 127, .14);
+}
+
+.login-button:active {
+  opacity: .88;
+}
+
+.login-button-disabled {
+  pointer-events: none;
+  color: #7b9692;
+  background: rgba(255, 255, 255, .88);
+}
+
+.login-button-unchecked {
+  background: rgba(255, 255, 255, .9);
+}
+
+.wechat-mark {
+  width: 46rpx;
+  height: 46rpx;
+  display: block;
+  margin-right: 18rpx;
+}
+
+.agreement-consent {
+  position: absolute;
+  z-index: 3;
+  top: 89.5%;
+  left: 4%;
+  width: 92%;
+  min-height: 5%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 8rpx 6rpx;
+  color: rgba(255,255,255,.94);
+  background: transparent;
+  font-size: 20rpx;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.agreement-copy {
+  flex: none;
+}
+
+.agreement-check {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36rpx;
+  height: 36rpx;
+  box-sizing: border-box;
+  margin-right: 10rpx;
+  border: 2rpx solid rgba(255, 255, 255, .94);
+  border-radius: 6rpx;
+  color: #078f8a;
+  background: rgba(0, 113, 156, .12);
+  font-size: 25rpx;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.agreement-check-checked {
+  border-color: #fff;
+  background: #fff;
+}
+
+.agreement-link {
+  color: #fff;
+  font-weight: 700;
+}
+
+.guest-entry {
+  position: absolute;
+  z-index: 3;
+  top: 95.6%;
+  left: 50%;
+  width: 62%;
+  height: 3.35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, .94);
+  font-size: 22rpx;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+  transform: translateX(-50%);
+}
+
+.guest-entry:active {
+  opacity: .66;
+}
+
+.guest-entry-disabled {
+  pointer-events: none;
+  opacity: .5;
+}
+
+.guest-entry-line {
+  width: 40rpx;
+  height: 1rpx;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .58));
+}
+
+.guest-entry-line:first-child {
+  margin-right: 18rpx;
+}
+
+.guest-entry-line:last-child {
+  margin-left: 18rpx;
+  transform: rotate(180deg);
+}
+
+.guest-entry-text {
+  flex: none;
+}

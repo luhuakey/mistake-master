@@ -1,0 +1,161 @@
+<view class="home-page">
+  <view class="home-header {{navScrolled?'nav-scrolled':''}}" style="{{navStyle}}">
+    <view class="home-identity {{isGuest?'guest-identity':''}}" bindtap="openProfile" aria-role="button" aria-label="{{isGuest?'游客，前往我的页面':'当前用户头像'}}">
+      <image class="avatar" src="{{avatarUrl}}" mode="aspectFill" aria-hidden="true"/>
+      <text wx:if="{{isGuest}}" class="guest-identity-label">游客</text>
+    </view>
+    <text class="home-title">学霸省题</text>
+  </view>
+
+  <view class="home-navigation-shell">
+    <view class="subject-nav-sticky">
+      <view class="subject-nav-shell">
+        <scroll-view class="subject-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" enable-flex="{{true}}">
+          <view class="subject-tabs" aria-role="tablist">
+            <view
+              wx:for="{{visibleSubjects}}"
+              wx:key="key"
+              class="subject-tab {{subject===item.key?'active':''}}"
+              data-subject="{{item.key}}"
+              bindtap="changeSubject"
+              aria-role="tab"
+              aria-selected="{{subject===item.key}}"
+            >{{item.label}}</view>
+          </view>
+        </scroll-view>
+        <view class="subject-settings" bindtap="openSubjectSettings" aria-role="button" aria-label="管理首页科目">
+          <view class="settings-sliders"><view></view><view></view><view></view></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view
+    class="home-data-scroll"
+    scroll-y="{{true}}"
+    enhanced="{{true}}"
+    show-scrollbar="{{false}}"
+    refresher-enabled="{{true}}"
+    refresher-triggered="{{refreshing}}"
+    refresher-default-style="none"
+    refresher-background="#fbfefd"
+    bindscroll="onHomeScroll"
+    bindrefresherrefresh="onHomeRefresh"
+  >
+    <view class="home-content">
+
+    <view wx:if="{{refreshFeedback}}" class="home-refresh-feedback {{refreshFeedback==='success'?'refresh-success':''}}" aria-live="polite">
+      <view wx:if="{{refreshFeedback==='loading'}}" class="home-refresh-spinner"></view>
+      <view wx:else class="home-refresh-check">✓</view>
+      <text>{{refreshFeedback==='loading'?'正在刷新当前科目数据…':'刷新完成'}}</text>
+    </view>
+
+    <view class="dashboard">
+      <view wx:if="{{loading}}" class="summary loading"><app-loading tips="加载中"/></view>
+      <view wx:else class="summary">
+        <view class="summary-copy">
+          <view class="summary-heading">
+            <text class="summary-title">今日学习数据</text>
+            <text wx:if="{{isGuest}}" class="guest-data-badge">体验数据</text>
+          </view>
+          <view class="metrics">
+            <view class="metric metric-link" data-mastery="all" bindtap="openLibraryMetric" aria-role="button" aria-label="查看当前科目的全部错题">
+              <text class="metric-label">已收集错题</text>
+              <view class="metric-number"><text>{{summary.collected_count || 0}}</text><text class="metric-unit">道</text></view>
+            </view>
+            <view class="metric-separator"></view>
+            <view class="metric metric-link" data-mastery="mastered" bindtap="openLibraryMetric" aria-role="button" aria-label="查看当前科目已掌握的错题">
+              <text class="metric-label">已掌握</text>
+              <view class="metric-number"><text>{{summary.mastered_count || 0}}</text><text class="metric-unit">道</text></view>
+            </view>
+          </view>
+        </view>
+        <view class="accuracy-ring" style="{{accuracyRingStyle}}">
+          <view class="accuracy-inner">
+            <text class="accuracy-label">正确率</text>
+            <text class="accuracy-number">{{accuracyText}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="actions">
+      <view class="action action-camera" bindtap="goCrop" aria-role="button" aria-label="拍照上传">
+        <view class="camera-icon"><view class="camera-lens"></view><view class="camera-dot"></view></view>
+        <text>拍照上传</text>
+      </view>
+      <view class="action action-recommend" bindtap="startRecommended" aria-role="button" aria-label="推荐题目">
+        <view class="book-icon"><view class="book-page book-page-left"></view><view class="book-page book-page-right"></view><view class="book-mark"></view></view>
+        <text>智能推题</text>
+      </view>
+    </view>
+
+    <view class="recent-card">
+      <view class="recent-header" bindtap="openAll">
+        <text>{{isGuest?'示例错题':'最近错题'}}</text>
+        <text class="header-arrow">›</text>
+      </view>
+      <view wx:if="{{!recent.length}}" class="recent-empty">{{isGuest?'暂无示例错题':'还没有错题，拍照收录第一道吧'}}</view>
+      <view
+        wx:for="{{recent}}"
+        wx:key="id"
+        class="recent-row"
+        data-id="{{item.id}}"
+        bindtap="openQuestion"
+      >
+        <view class="question-index">{{index + 1}}</view>
+        <view class="question-main">
+          <view class="question-title-line">
+            <view class="question-title"><math-text value="{{item.stem}}" max-lines="{{2}}" truncated="{{item.stemTruncated}}"/></view>
+          </view>
+          <view class="question-meta">
+            <text wx:for="{{item.displayTags}}" wx:for-item="tag" wx:key="*this" class="mini-tag">{{tag}}</text>
+          </view>
+        </view>
+        <view class="question-side"><text class="question-time">{{item.timeLabel}}</text></view>
+      </view>
+    </view>
+  </view>
+  </scroll-view>
+
+  <view wx:if="{{subjectSettingsOpen}}" class="subject-modal-mask" catchtouchmove="stopModalEvent" bindtap="closeSubjectSettings">
+    <view class="subject-modal" catchtap="stopModalEvent">
+      <view class="subject-modal-header">
+        <view class="subject-modal-heading">
+          <text class="subject-modal-title">科目管理</text>
+          <text class="subject-modal-subtitle">勾选显示科目，按住右侧把手拖动排序</text>
+        </view>
+      </view>
+      <view class="subject-modal-toolbar">
+        <text class="subject-selected-count">已选 {{selectedSubjectCount}} / {{subjectChoices.length}} 个科目</text>
+        <view class="subject-modal-selectall" bindtap="toggleSelectAll" aria-role="button" aria-label="{{allSelected?'取消全选':'全选科目'}}">{{allSelected?'取消全选':'全选'}}</view>
+      </view>
+      <scroll-view class="subject-choice-grid" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+        <view wx:for="{{subjectChoices}}" wx:key="key" class="subject-choice {{item.checked?'checked':''}} {{subjectDragKey===item.key?'dragging':''}}" data-key="{{item.key}}" bindtap="toggleSubjectChoice">
+          <view wx:if="{{item.checked}}" class="subject-order-number">{{index + 1}}</view>
+          <view wx:else class="subject-order-number subject-order-placeholder"></view>
+          <text class="subject-choice-name">{{item.label}}</text>
+          <view
+            wx:if="{{item.checked}}"
+            class="subject-drag-handle"
+            data-key="{{item.key}}"
+            catchtap="stopModalEvent"
+            catchtouchstart="dragSubjectStart"
+            catchtouchmove="dragSubjectMove"
+            catchtouchend="dragSubjectEnd"
+            catchtouchcancel="dragSubjectEnd"
+            aria-role="button"
+            aria-label="拖动{{item.label}}调整顺序"
+          >
+            <view class="drag-dot-grid"><text></text><text></text><text></text><text></text><text></text><text></text></view>
+          </view>
+          <view class="subject-checkbox">{{item.checked?'✓':''}}</view>
+        </view>
+      </scroll-view>
+      <view class="subject-modal-actions">
+        <view class="subject-modal-button reset" bindtap="closeSubjectSettings">取消</view>
+        <view class="subject-modal-button confirm" bindtap="confirmSubjectSettings">{{savingSubjects?'保存中…':'确定'}}</view>
+      </view>
+    </view>
+  </view>
+</view>

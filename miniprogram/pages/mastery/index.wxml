@@ -1,0 +1,29 @@
+<view class="page mastery-page">
+  <view class="page-nav-shell {{navScrolled?'nav-scrolled':''}}" style="{{navShellStyle}}">
+    <view class="nav" style="{{navBarStyle}}">
+      <text class="nav-back" bindtap="back">‹</text>
+      <text class="nav-title">知识点掌握度</text>
+    </view>
+  </view>
+  <view class="mastery-content">
+    <scroll-view class="subject-segment-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" enable-flex="{{true}}">
+      <view class="subject-segment" aria-role="tablist">
+        <view wx:for="{{visibleSubjects}}" wx:key="key" class="subject-option {{subject===item.key?'active':''}}" data-subject="{{item.key}}" bindtap="switchSubject" aria-role="tab" aria-selected="{{subject===item.key}}">{{item.label}}</view>
+      </view>
+    </scroll-view>
+    <view wx:if="{{loading}}" class="loading"><app-loading/></view>
+    <block wx:else>
+      <view wx:if="{{radar.length>=3}}" class="radar-wrap" style="{{radarStageStyle}}">
+        <canvas type="2d" id="radarCanvas" class="radar" style="{{radarCanvasStyle}}"></canvas>
+        <text wx:for="{{radar}}" wx:key="knowledge_point" class="radar-label" style="{{item.labelStyle}}">{{item.knowledge_point}}</text>
+      </view>
+      <view wx:if="{{!items.length}}" class="empty card">暂无掌握度数据，完成练习后再来看看</view>
+      <view wx:for="{{items}}" wx:key="knowledge_point" class="mastery-row card" data-point="{{item.knowledge_point}}" bindtap="filter">
+        <text class="name">{{item.knowledge_point}}</text>
+        <view class="bar {{item.weak?'weak-bar':''}}"><view class="fill {{item.weak?'weak':''}}" style="width:{{item.mastery_rate}}%"></view></view>
+        <view class="rate {{item.weak?'weak-text':''}}"><text>{{item.mastery_rate}}%</text><text>{{item.weak?'薄弱':(item.question_count?item.question_count+'道':'')}}</text></view>
+      </view>
+      <view wx:if="{{items.length}}" class="notice"><view class="pin">●</view>薄弱知识点将优先出现在<text>推荐练习</text>中</view>
+    </block>
+  </view>
+</view>

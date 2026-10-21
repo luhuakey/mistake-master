@@ -1,0 +1,165 @@
+.tabbar {
+  position: fixed;
+  z-index: 99;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: calc(128rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  display: flex;
+  padding: 12rpx 24rpx calc(8rpx + env(safe-area-inset-bottom));
+  border-radius: 36rpx 36rpx 0 0;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 -12rpx 38rpx rgba(36, 111, 113, 0.10);
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #767d80;
+  font-size: 24rpx;
+}
+
+.tab.active {
+  color: #08a6a2;
+  font-weight: 600;
+}
+
+.tab-label {
+  min-height: 30rpx;
+  margin-top: 12rpx;
+  line-height: 30rpx;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tab-icon-slot {
+  flex: none;
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-icon {
+  position: relative;
+  box-sizing: border-box;
+  width: 42rpx;
+  height: 42rpx;
+  color: inherit;
+}
+
+.tab-icon-home {
+  width: 30rpx;
+  height: 29rpx;
+  border-radius: 3rpx;
+  background: currentColor;
+  transform: translateY(6rpx);
+}
+
+.tab-icon-home::before {
+  content: '';
+  position: absolute;
+  top: -10rpx;
+  left: 2rpx;
+  width: 26rpx;
+  height: 26rpx;
+  border-radius: 3rpx;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.tab-icon-home::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 11rpx;
+  width: 10rpx;
+  height: 15rpx;
+  border-radius: 4rpx 4rpx 0 0;
+  background: #fff;
+}
+
+.tab-icon-library {
+  border: 4rpx solid currentColor;
+  border-radius: 7rpx;
+}
+
+.tab-icon-library::before,
+.tab-icon-library::after,
+.tab-icon-practice::before,
+.tab-icon-practice::after {
+  content: '';
+  position: absolute;
+  left: 10rpx;
+  width: 18rpx;
+  height: 3rpx;
+  border-radius: 3rpx;
+  background: currentColor;
+}
+
+.tab-icon-library::before {
+  top: 12rpx;
+}
+
+.tab-icon-library::after {
+  top: 23rpx;
+}
+
+.tab-icon-practice {
+  height: 36rpx;
+  border: 4rpx solid currentColor;
+  border-radius: 8rpx;
+  transform: translateY(-5rpx);
+}
+
+.tab-icon-practice .icon-detail {
+  position: absolute;
+  bottom: -9rpx;
+  left: 7rpx;
+  width: 12rpx;
+  height: 12rpx;
+  border-right: 4rpx solid currentColor;
+  border-bottom: 4rpx solid currentColor;
+  background: #fff;
+  transform: rotate(45deg);
+}
+
+.tab-icon-practice::before {
+  top: 9rpx;
+}
+
+.tab-icon-practice::after {
+  top: 19rpx;
+  width: 13rpx;
+}
+
+.tab-icon-profile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 11rpx;
+  box-sizing: border-box;
+  width: 21rpx;
+  height: 21rpx;
+  border: 4rpx solid currentColor;
+  border-radius: 50%;
+}
+
+.tab-icon-profile::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 2rpx;
+  box-sizing: border-box;
+  width: 39rpx;
+  height: 20rpx;
+  border: 4rpx solid currentColor;
+  border-bottom: 0;
+  border-radius: 24rpx 24rpx 0 0;
+}

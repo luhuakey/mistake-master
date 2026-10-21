@@ -1,0 +1,144 @@
+.library-card,
+.search-result {
+  box-sizing: border-box;
+  margin-bottom: 34rpx;
+  border-radius: 28rpx;
+  background: rgba(255, 255, 255, .98);
+  box-shadow: 0 14rpx 42rpx rgba(0, 169, 163, .10);
+}
+
+.library-card {
+  min-height: 208rpx;
+  padding: 34rpx 32rpx;
+}
+
+.library-main {
+  display: flex;
+  align-items: center;
+}
+
+.subject-badge {
+  flex: none;
+  min-width: 106rpx;
+  box-sizing: border-box;
+  padding: 15rpx 18rpx;
+  border-radius: 13rpx;
+  color: #fff;
+  background: linear-gradient(135deg, #ffac2f, #ff8a1c);
+  font-size: 28rpx;
+  font-weight: 700;
+  text-align: center;
+}
+
+.subject-badge.mastered {
+  background: linear-gradient(135deg, #12c8ae, #08bbaa);
+}
+
+.library-stem {
+  min-width: 0;
+  flex: 1;
+  margin-left: 26rpx;
+  overflow: hidden;
+  color: #111516;
+  font-size: 29rpx;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.library-stem math-text { min-width:0; }
+
+.library-arrow {
+  flex: none;
+  margin-left: 12rpx;
+  color: #737a7d;
+  font-family: Arial, sans-serif;
+  font-size: 54rpx;
+  font-weight: 300;
+}
+
+.library-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+  margin-top: 24rpx;
+}
+
+.topic-tag {
+  padding: 10rpx 22rpx;
+  border-radius: 13rpx;
+  color: #009c98;
+  background: #eafbf9;
+  font-size: 23rpx;
+}
+
+.search-result {
+  padding: 30rpx 32rpx;
+}
+
+.search-result:nth-child(odd) {
+  border: 3rpx solid #08aaa5;
+  background: linear-gradient(135deg, rgba(230,255,250,.9), rgba(225,251,249,.74));
+}
+
+.similarity-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.similarity-title {
+  color: #008f8b;
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.similarity-faint {
+  color: #8d9799;
+  font-size: 25rpx;
+}
+
+.search-stem {
+  display: flex;
+  align-items: baseline;
+  margin-top: 26rpx;
+  overflow: hidden;
+  color: #667276;
+  font-size: 25rpx;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.search-stem math-text { min-width:0; flex:1; }
+
+.stem-dot {
+  color: #029f9a;
+}
+
+.search-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 22rpx;
+}
+
+.search-tags {
+  min-width: 0;
+  display: flex;
+  gap: 10rpx;
+  overflow: hidden;
+}
+
+.outline-tag {
+  flex: none;
+  padding: 5rpx 14rpx;
+  border: 1rpx solid #c9dddd;
+  border-radius: 12rpx;
+  color: #008f8b;
+  font-size: 20rpx;
+}
+
+.detail-link {
+  flex: none;
+  color: #008f8b;
+  font-size: 25rpx;
+  font-weight: 600;
+}

@@ -1,0 +1,26 @@
+<view wx:if="{{showSimilarity}}" class="search-result" bindtap="onTap">
+  <view class="similarity-line">
+    <text class="similarity-title">相似度 {{question.similarity || 0}}%</text>
+    <text class="similarity-faint">{{question.similarity || 0}}%</text>
+  </view>
+  <view class="search-stem"><text class="stem-dot">○</text><text>题要：</text><math-text value="{{question.stem}}" max-lines="{{2}}" truncated="{{stemTruncated}}"/></view>
+  <view class="search-bottom">
+    <view class="search-tags">
+      <text class="outline-tag">{{subjectLabel}}</text>
+      <text wx:for="{{question.knowledge_points}}" wx:key="*this" class="outline-tag">{{item}}</text>
+    </view>
+    <text class="detail-link">点击查看详情</text>
+  </view>
+</view>
+
+<view wx:else class="library-card" bindtap="onTap">
+  <view class="library-main">
+    <text class="subject-badge {{question.mastery_status === 'mastered' ? 'mastered' : ''}}">{{subjectLabel}}</text>
+    <view class="library-stem"><math-text value="{{question.stem}}" max-lines="{{2}}" truncated="{{stemTruncated}}"/></view>
+    <text class="library-arrow">›</text>
+  </view>
+  <view class="library-tags">
+    <text wx:for="{{question.knowledge_points}}" wx:key="*this" class="topic-tag">{{item}}</text>
+    <text class="topic-tag">{{typeLabel}}</text>
+  </view>
+</view>
