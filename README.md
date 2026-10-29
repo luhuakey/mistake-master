@@ -20,8 +20,4 @@ npm run dev
 - [技术架构文档](docs/技术架构文档.md)
 
 ## 演示视频
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <video style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" controls>
-    <source src="演示视频/演示视频.mp4" type="video/mp4">
-  </video>
-</div>
+![[演示视频/演示视频.mp4]]
