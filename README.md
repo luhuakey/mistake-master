@@ -19,6 +19,7 @@ npm run dev
 - [产品需求文档](docs/产品需求文档.md)
 - [技术架构文档](docs/技术架构文档.md)
 
+## 操作演示
 <p align="center">
-  <img src="assets/demo.gif" alt="演示" width="560">
+  <img src="assets/demo.gif" alt="演示" width="300" hight="500" >
 </p>
